@@ -1,6 +1,6 @@
 namespace $.$$ {
 	
-	export class $mol_app_lamps extends $.$mol_app_lamps {
+	export class $hyoo_lamps extends $.$hyoo_lamps {
 		
 		@ $mol_mem
 		lamps_all() {

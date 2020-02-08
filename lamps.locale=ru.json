@@ -1,10 +1,10 @@
 {
-	"$mol_app_lamps_filter_hint": "Фильтрация...",
-	"$mol_app_lamps_Temp_title": "Температура",
-	"$mol_app_lamps_cri_title": "Цветопередача",
-	"$mol_app_lamps_ripple_title": "Мерцание",
-	"$mol_app_lamps_angle_title": "Угол",
-	"$mol_app_lamps_type_title": "Тип",
-	"$mol_app_lamps_shape_title": "Форма",
-	"$mol_app_lamps_base_title": "Цоколь"
+	"$hyoo_lamps_filter_hint": "Фильтрация...",
+	"$hyoo_lamps_Temp_title": "Температура",
+	"$hyoo_lamps_cri_title": "Цветопередача",
+	"$hyoo_lamps_ripple_title": "Мерцание",
+	"$hyoo_lamps_angle_title": "Угол",
+	"$hyoo_lamps_type_title": "Тип",
+	"$hyoo_lamps_shape_title": "Форма",
+	"$hyoo_lamps_base_title": "Цоколь"
 }

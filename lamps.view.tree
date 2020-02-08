@@ -1,4 +1,4 @@
-$mol_app_lamps $mol_book
+$hyoo_lamps $mol_book
 	lamp_current_id?val \
 	pages /
 		<= Addon_page $mol_page
