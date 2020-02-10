@@ -1,0 +1,13 @@
+{
+	"$hyoo_lamps_Temp_title": "Температура",
+	"$hyoo_lamps_angle_title": "Угол",
+	"$hyoo_lamps_base_title": "Цоколь",
+	"$hyoo_lamps_cri_title": "Цветопередача",
+	"$hyoo_lamps_filter_hint": "Фильтрация...",
+	"$hyoo_lamps_ripple_title": "Мерцание",
+	"$hyoo_lamps_shape_title": "Форма",
+	"$hyoo_lamps_type_title": "Тип",
+	"$mol_search_hint": "Поиск..",
+	"$mol_select_hint": "Поиск..",
+	"$mol_select_no_options_message": "Нет вариантов"
+}

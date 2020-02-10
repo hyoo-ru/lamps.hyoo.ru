@@ -1,0 +1,16 @@
+{
+	"$hyoo_lamps_Temp_title": "Temperature",
+	"$hyoo_lamps_angle_title": "Angle",
+	"$hyoo_lamps_base_title": "Base",
+	"$hyoo_lamps_cri_title": "CRI",
+	"$hyoo_lamps_filter_hint": "Filter...",
+	"$hyoo_lamps_rating_title": "Rating",
+	"$hyoo_lamps_ripple_title": "Ripple",
+	"$hyoo_lamps_shape_title": "Shape",
+	"$hyoo_lamps_type_title": "Type",
+	"$hyoo_lamps_wattage_title": "Wattage",
+	"$mol_code_scan_label": "Scan",
+	"$mol_search_hint": "Search...",
+	"$mol_select_hint": "Search..",
+	"$mol_select_no_options_message": "No options"
+}
