@@ -354,7 +354,7 @@ declare namespace $ {
         mime(): string | null;
         stream(): ReadableStream<Uint8Array> | null;
         text(): string;
-        json(): any;
+        json(): unknown;
         buffer(): ArrayBuffer;
         xml(): Document;
         xhtml(): Document;
@@ -365,7 +365,7 @@ declare namespace $ {
         static response(input: RequestInfo, init?: RequestInit): $mol_fetch_response;
         static stream(input: RequestInfo, init?: RequestInit): ReadableStream<Uint8Array> | null;
         static text(input: RequestInfo, init?: RequestInit): string;
-        static json(input: RequestInfo, init?: RequestInit): any;
+        static json(input: RequestInfo, init?: RequestInit): unknown;
         static buffer(input: RequestInfo, init?: RequestInit): void;
         static xml(input: RequestInfo, init?: RequestInit): Document;
         static xhtml(input: RequestInfo, init?: RequestInit): Document;
@@ -1784,6 +1784,9 @@ declare namespace $ {
 
 declare namespace $ {
     class $hyoo_lamps extends $mol_book {
+        attr(): {
+            mol_theme: string;
+        };
         lamp_current_id(val?: any, force?: $mol_mem_force): any;
         pages(): readonly any[];
         Addon_page(): $$.$mol_page;
@@ -1858,10 +1861,10 @@ declare namespace $.$$ {
         lamp_arg(id: string): {
             lamp: string;
         };
-        id(next?: string): string | null;
+        id(next?: string | null): string;
         lamp(): any;
         pages(): $mol_view[];
-        Placeholder(): $mol_book_placeholder | null;
+        Placeholder(): any;
         menu_scroll_top(next?: number): number;
         title(): any;
         cri(): string;
