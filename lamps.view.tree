@@ -1,4 +1,6 @@
 $hyoo_lamps $mol_book
+	attr *
+		mol_theme \$mol_theme_auto
 	lamp_current_id?val \
 	pages /
 		<= Addon_page $mol_page
