@@ -55,15 +55,15 @@ namespace $.$$ {
 		filter( next? : string , force? : $mol_mem_force ) : string {
 			if( next === undefined ) return $mol_state_arg.value( 'filter' ) || ''
 			
-			return $mol_state_arg.value( 'filter' , next )
+			return $mol_state_arg.value( 'filter' , next ) ?? ''
 		}
 		
 		lamp_arg( id : string ) {
 			return { 'lamp' : id }
 		}
 		
-		id( next? : string ) {
-			return $mol_state_arg.value( 'lamp' , next )
+		id( next? : string | null ) {
+			return $mol_state_arg.value( 'lamp' , next ) ?? ''
 		}
 		
 		lamp() {
@@ -81,7 +81,7 @@ namespace $.$$ {
 		}
 		
 		Placeholder() {
-			return this.lamp() ? null : super.Placeholder()
+			return this.lamp() ? null as any : super.Placeholder()
 		}
 
 		@ $mol_mem
