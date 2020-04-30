@@ -3128,6 +3128,7 @@ var $;
                 return node;
             }
             dom_node_actual() {
+                this.dom_node();
                 const node = this.Sub().dom_node_actual();
                 const attr = this.attr();
                 const style = this.style();
@@ -3145,6 +3146,12 @@ var $;
             }
             title() {
                 return this.Sub().title();
+            }
+            minimal_width() {
+                return this.Sub().minimal_width();
+            }
+            minimal_height() {
+                return this.Sub().minimal_height();
             }
         }
         __decorate([
@@ -4422,7 +4429,7 @@ var $;
 "use strict";
 var $;
 (function ($) {
-    $.$mol_style_attach("mol/float/float.view.css", "[mol_float] {\n\tposition: sticky;\n\ttop: 0;\n\tleft: 0;\n\tz-index: 1;\n\topacity: 1;\n\ttransition: opacity .25s ease-in;\n\tdisplay: block;\n}\n\n[mol_float_scrolling] {\n\topacity: 0;\n\ttransition-duration: 0;\n}\n");
+    $.$mol_style_attach("mol/float/float.view.css", "[mol_float] {\n\tposition: sticky;\n\ttop: 0;\n\tleft: 0;\n\tz-index: 1;\n\topacity: 1;\n\ttransition: opacity .25s ease-in;\n\tdisplay: block;\n\tbackground: var(--mol_theme_back);\n\tbox-shadow: 0 0 .5rem hsla(0,0%,0%,.25);\n}\n\n");
 })($ || ($ = {}));
 //float.view.css.js.map
 ;
@@ -4799,7 +4806,7 @@ var $;
         version() {
             return this.stat().mtime.getTime().toString(36).toUpperCase();
         }
-        exists(next) {
+        exists(next, force) {
             let exists = true;
             try {
                 this.stat();
@@ -6923,7 +6930,7 @@ var $;
         setTimeout($_1.$mol_log_group('$mol_test', () => {
             scheduled = false;
             $mol_test_run();
-        }), 500);
+        }), 0);
     }
     $_1.$mol_test_schedule = $mol_test_schedule;
     $_1.$mol_test_mocks.push(context => {
