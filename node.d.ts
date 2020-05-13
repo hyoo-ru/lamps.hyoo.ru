@@ -2035,7 +2035,7 @@ declare namespace $.$$ {
         wattage(): string;
         matt(): boolean;
         ripple(): string;
-        rating_cri(): 1 | 2 | 3 | 5 | 4 | 4.5 | 3.5;
+        rating_cri(): 1 | 2 | 5 | 4.5 | 4 | 3.5 | 3;
         rating(): number;
         slug(id: string): string;
         photo(): string;
