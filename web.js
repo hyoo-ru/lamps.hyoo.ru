@@ -3832,6 +3832,7 @@ var $;
                 grow: 1,
                 shrink: 1,
             },
+            outline: 'none',
             alignSelf: 'stretch',
             boxSizing: 'border-box',
             willChange: 'scroll-position',
