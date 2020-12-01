@@ -1,11 +1,14 @@
 $hyoo_lamps $mol_book2
-	attr *
-		mol_theme \$mol_theme_auto
+	plugins /
+		<= Theme $mol_theme_auto
 	lamp_current_id?val \
 	pages /
 		<= Addon_page $mol_page
 			title \LampTest.ru
 			body_scroll_top?val <=> menu_scroll_top?val 0
+			tools /
+				<= Source $mol_link_source uri \https://github.com/hyoo-ru/lamps.hyoo.ru
+				<= Lights $mol_lights_toggle
 			body /
 				<= Menu $mol_list
 					rows <= lamp_rows /
