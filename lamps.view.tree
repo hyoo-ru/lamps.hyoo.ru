@@ -1,10 +1,9 @@
-$hyoo_lamps $mol_book
+$hyoo_lamps $mol_book2
 	attr *
 		mol_theme \$mol_theme_auto
 	lamp_current_id?val \
 	pages /
 		<= Addon_page $mol_page
-			minimal_width 400
 			title \LampTest.ru
 			body_scroll_top?val <=> menu_scroll_top?val 0
 			body /
@@ -16,9 +15,7 @@ $hyoo_lamps $mol_book
 									hint <= filter_hint @ \Filter...
 									value?val <=> filter?val \
 		<= Main_page $mol_page
-			minimal_width 400
 			title <= title \
-			event_top?val <=> event_front_up?val
 			tools /
 				<= Close $mol_link
 					sub /

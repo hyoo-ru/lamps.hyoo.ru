@@ -32,11 +32,11 @@
 }
 
 [hyoo_lamps_addon_page] {
-	flex: 1 1 400px;
+	flex: 0 0 20rem;
 }
 
 [hyoo_lamps_main_page] {
-	flex: 1000 1 400px;
+	flex: 0 0 40rem;
 }
 
 [hyoo_lamps_light] ,
