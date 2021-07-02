@@ -1,6 +1,4 @@
 "use strict";
-require( "source-map-support" ).install();
-process.on( 'unhandledRejection' , up => { throw up } );
 "use strict"
 
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,19 +8,18 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 	return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 
-var globalThis = globalThis || global || self || this
+var globalThis = globalThis || ( typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : this )
 var $ = ( typeof module === 'object' ) ? Object.setPrototypeOf( module['export'+'s'] , globalThis ) : globalThis
 $.$$ = $
-$.$mol = $  // deprecated
 
 ;
 "use strict";
-Error.stackTraceLimit = Infinity;
+Error.stackTraceLimit = 50;
 var $;
 (function ($) {
 })($ || ($ = {}));
 module.exports = $;
-//mol.js.map
+//mam.js.map
 ;
 "use strict";
 var $;
@@ -88,7 +85,7 @@ var $;
                 return false;
             return true;
         }
-        catch (_a) {
+        catch {
             return false;
         }
     }
@@ -165,7 +162,7 @@ var $;
             if (this[$.$mol_ambient_ref])
                 return this[$.$mol_ambient_ref];
             const owner = $.$mol_owning_get(this);
-            return this[$.$mol_ambient_ref] = (owner === null || owner === void 0 ? void 0 : owner.$) || $mol_object2.$;
+            return this[$.$mol_ambient_ref] = owner?.$ || $mol_object2.$;
         }
         set $(next) {
             if (this[$.$mol_ambient_ref])
@@ -175,8 +172,18 @@ var $;
         static create(init) {
             return new this(init);
         }
-        static toString() { return this[Symbol.toStringTag] || this.name; }
+        static [(_a = $.$mol_ambient_ref, Symbol.toPrimitive)]() {
+            return this.toString();
+        }
+        static toString() {
+            if (Symbol.toStringTag in this)
+                return this[Symbol.toStringTag];
+            return this.name;
+        }
         destructor() { }
+        [Symbol.toPrimitive](hint) {
+            return hint === 'number' ? this.valueOf() : this.toString();
+        }
         toString() {
             return this[Symbol.toStringTag] || this.constructor.name + '()';
         }
@@ -184,7 +191,6 @@ var $;
             return this.toString();
         }
     }
-    _a = $.$mol_ambient_ref;
     $mol_object2.$ = $;
     $.$mol_object2 = $mol_object2;
 })($ || ($ = {}));
@@ -219,15 +225,15 @@ var $;
 //context.js.map
 ;
 "use strict";
-var $node = new Proxy({}, {
+var $node = new Proxy({ require }, {
     get(target, name, wrapper) {
         if (target[name])
             return target[name];
-        const mod = $node_require('module');
+        const mod = target.require('module');
         if (mod.builtinModules.indexOf(name) >= 0)
-            return $node_require(name);
-        const path = $node_require('path');
-        const fs = $node_require('fs');
+            return target.require(name);
+        const path = target.require('path');
+        const fs = target.require('fs');
         let dir = path.resolve('.');
         const suffix = `./node_modules/${name}`;
         const $$ = $;
@@ -238,24 +244,23 @@ var $node = new Proxy({}, {
                 try {
                     $$.$mol_exec('.', 'npm', 'install', '@types/' + name);
                 }
-                catch (_a) { }
+                catch { }
                 break;
             }
             else {
                 dir = parent;
             }
         }
-        return $node_require(name);
+        return target.require(name);
     },
     set(target, name, value) {
         target[name] = value;
         return true;
     },
 });
-const $node_require = require;
 require = (req => Object.assign(function require(name) {
     return $node[name];
-}, $node_require))(require);
+}, req))(require);
 //node.node.js.map
 ;
 "use strict";
@@ -389,7 +394,7 @@ var $;
 "use strict";
 var $;
 (function ($) {
-    $.$mol_style_attach("mol/theme/theme.css", "[mol_theme] {\n\tbackground-color: var(--mol_theme_back);\n\tcolor: var(--mol_theme_text);\n\tfill: var(--mol_theme_text);\n}\n\n[mol_theme=\"$mol_theme_light\"] , :root {\n\t--mol_theme_back: hsl( 210 , 50% , 99% );\n\t--mol_theme_hover: rgba( 0 , 0 , 0 , .05 );\n\t--mol_theme_current: hsl( 210 , 100% , 80% );\n\t--mol_theme_text: hsl( 0 , 0% , 0% );\n\t--mol_theme_control: hsla( 210 , 60% , 35% , 1 );\n\t--mol_theme_shade: rgba( 0 , 0 , 0 , .5 );\n\t--mol_theme_line: rgba( 220 , 220 , 220 , 1 );\n\t--mol_theme_focus: hsl( 290 , 100% , 40% );\n\t--mol_theme_field: white;\n\t--mol_theme_image: none;\n}\n\n[mol_theme=\"$mol_theme_dark\"] {\n\t--mol_theme_back: hsl( 210 , 50% , 10% );\n\t--mol_theme_hover: rgba( 255 , 255 , 255 , .05 );\n\t--mol_theme_current: hsl( 210 , 100% , 30% );\n\t--mol_theme_text: hsl( 0 , 0% , 80% );\n\t--mol_theme_control: hsla( 210 , 60% , 70% , 1 );\n\t--mol_theme_shade: rgba( 255 , 255 , 255 , .5 );\n\t--mol_theme_line: rgba( 50 , 50 , 50 , 1 );\n\t--mol_theme_focus: hsl( 60 , 100% , 70% );\n\t--mol_theme_field: black;\n\t--mol_theme_image: invert(1) hue-rotate(180deg);\n}\n\n[mol_theme=\"$mol_theme_base\"] {\n\t--mol_theme_back: hsla( 210 , 60% , 35% , 1 );\n\t--mol_theme_hover: hsla( 210 , 60% , 20% , 1 );\n\t--mol_theme_current: hsl( 210 , 100% , 20% );\n\t--mol_theme_text: white;\n\t--mol_theme_line: white;\n\t--mol_theme_control: white;\n}\n\n[mol_theme=\"$mol_theme_accent\"] {\n\t--mol_theme_back: hsl( 15 , 60% , 50% );\n\t--mol_theme_hover: hsl( 15 , 60% , 40% );\n\t--mol_theme_text: white;\n\t--mol_theme_line: rgba( 50 , 50 , 50 , 1 );\n\t--mol_theme_control: white;\n\t--mol_theme_focus: black;\n}\n\n[mol_theme=\"$mol_theme_accent\"] [mol_theme=\"$mol_theme_accent\"] {\n\t--mol_theme_back: black;\n\t--mol_theme_text: white;\n}\n");
+    $.$mol_style_attach("mol/theme/theme.css", "[mol_theme] {\n\tbackground-color: var(--mol_theme_back);\n\tcolor: var(--mol_theme_text);\n\tfill: var(--mol_theme_text);\n}\n\n[mol_theme=\"$mol_theme_light\"] , :root {\n\t--mol_theme_back: hsl( 210 , 50% , 99% );\n\t--mol_theme_hover: rgba( 0 , 0 , 0 , .05 );\n\t--mol_theme_current: hsl( 210 , 100% , 80% );\n\t--mol_theme_text: hsl( 0 , 0% , 0% );\n\t--mol_theme_control: hsla( 210 , 60% , 35% , 1 );\n\t--mol_theme_shade: rgba( 0 , 0 , 0 , .5 );\n\t--mol_theme_line: rgba( 220 , 220 , 220 , 1 );\n\t--mol_theme_focus: hsl( 290 , 100% , 50% );\n\t--mol_theme_field: white;\n\t--mol_theme_image: none;\n}\n\n[mol_theme=\"$mol_theme_dark\"] {\n\t--mol_theme_back: hsl( 210 , 50% , 10% );\n\t--mol_theme_hover: rgba( 255 , 255 , 255 , .05 );\n\t--mol_theme_current: hsl( 210 , 100% , 30% );\n\t--mol_theme_text: hsl( 0 , 0% , 80% );\n\t--mol_theme_control: hsla( 210 , 60% , 70% , 1 );\n\t--mol_theme_shade: rgba( 255 , 255 , 255 , .5 );\n\t--mol_theme_line: rgba( 50 , 50 , 50 , 1 );\n\t--mol_theme_focus: hsl( 60 , 100% , 70% );\n\t--mol_theme_field: black;\n\t--mol_theme_image: invert(1) hue-rotate(180deg);\n}\n\n[mol_theme=\"$mol_theme_base\"] {\n\t--mol_theme_back: hsla( 210 , 60% , 35% , 1 );\n\t--mol_theme_hover: hsla( 210 , 60% , 20% , 1 );\n\t--mol_theme_current: hsl( 210 , 100% , 20% );\n\t--mol_theme_text: white;\n\t--mol_theme_line: white;\n\t--mol_theme_control: white;\n}\n\n[mol_theme=\"$mol_theme_accent\"] {\n\t--mol_theme_back: hsl( 15 , 60% , 50% );\n\t--mol_theme_hover: hsl( 15 , 60% , 40% );\n\t--mol_theme_text: white;\n\t--mol_theme_line: rgba( 50 , 50 , 50 , 1 );\n\t--mol_theme_control: white;\n\t--mol_theme_focus: black;\n}\n\n[mol_theme=\"$mol_theme_accent\"] [mol_theme=\"$mol_theme_accent\"] {\n\t--mol_theme_back: black;\n\t--mol_theme_text: white;\n}\n");
 })($ || ($ = {}));
 //theme.css.js.map
 ;
@@ -551,7 +556,13 @@ var $;
             });
         }
         make(config) {
-            return new $mol_tree(Object.assign({ baseUri: this.baseUri, row: this.row, col: this.col, length: this.length }, config));
+            return new $mol_tree({
+                baseUri: this.baseUri,
+                row: this.row,
+                col: this.col,
+                length: this.length,
+                ...config,
+            });
         }
         make_data(value, sub) {
             return this.make({ value, sub });
@@ -632,7 +643,7 @@ var $;
                     }
                     if (json instanceof Error) {
                         const { name, message, stack } = json;
-                        json = Object.assign(Object.assign({}, json), { name, message, stack });
+                        json = { ...json, name, message, stack };
                     }
                     var sub = [];
                     for (var key in json) {
@@ -828,7 +839,7 @@ var $;
     function $mol_log3_node_make(level, output, type, color) {
         return function $mol_log3_logger(event) {
             if (!event.time)
-                event = Object.assign({ time: new Date().toISOString() }, event);
+                event = { time: new Date().toISOString(), ...event };
             const tree = this.$mol_tree.fromJSON(event).clone({ type });
             let str = tree.toString();
             if (process[output].isTTY) {
@@ -987,7 +998,7 @@ var $;
     $mol_conform_handler(Uint8Array, $mol_conform_array);
     $mol_conform_handler(Uint16Array, $mol_conform_array);
     $mol_conform_handler(Uint32Array, $mol_conform_array);
-    $mol_conform_handler(Object, (target, source) => {
+    $mol_conform_handler(({})['constructor'], (target, source) => {
         let count = 0;
         let equal = true;
         for (let key in target) {
@@ -1108,7 +1119,10 @@ var $;
     }
     $.$mol_dev_format_element = $mol_dev_format_element;
     function $mol_dev_format_span(style, ...content) {
-        return $mol_dev_format_element('span', Object.assign({ 'vertical-align': '8%' }, style), ...content);
+        return $mol_dev_format_element('span', {
+            'vertical-align': '8%',
+            ...style,
+        }, ...content);
     }
     $.$mol_dev_format_span = $mol_dev_format_span;
     $.$mol_dev_format_div = $mol_dev_format_element.bind(null, 'div');
@@ -1454,13 +1468,13 @@ var $;
             this.$.$mol_fail_hidden($mol_fiber.schedule());
         }
         get master() {
-            return this.masters[this.cursor];
+            return (this.cursor < this.masters.length ? this.masters[this.cursor] : undefined);
         }
         set master(next) {
             if (this.cursor === -1)
                 return;
             const cursor = this.cursor;
-            const prev = this.masters[this.cursor];
+            const prev = this.master;
             if (prev !== next) {
                 if (prev)
                     this.rescue(prev, cursor);
@@ -1631,7 +1645,7 @@ var $;
                 try {
                     next[Symbol.toStringTag] = this[Symbol.toStringTag];
                 }
-                catch (_a) { }
+                catch { }
                 next[$.$mol_object_field] = this[$.$mol_object_field];
             }
             this._value = next;
@@ -1880,7 +1894,10 @@ var $;
                 return get_cache(this).put(next);
             });
         }
-        return Object.assign(Object.assign({}, descr || {}), { value: Object.assign(value, { orig }) });
+        return {
+            ...descr || {},
+            value: Object.assign(value, { orig })
+        };
     }
     $.$mol_mem = $mol_mem;
 })($ || ($ = {}));
@@ -2012,7 +2029,12 @@ var $;
             atom.calculate = calculate;
             atom.obsolete_slaves = atom.schedule;
             atom.doubt_slaves = atom.schedule;
-            atom[Symbol.toStringTag] = calculate[Symbol.toStringTag] || calculate.name || '$mol_atom2_autorun';
+            if (Symbol.toStringTag in calculate) {
+                atom[Symbol.toStringTag] = calculate[Symbol.toStringTag];
+            }
+            else {
+                atom[Symbol.toStringTag] = calculate.name || '$mol_atom2_autorun';
+            }
             atom.schedule();
         });
     }
@@ -2114,7 +2136,7 @@ var $;
 var $;
 (function ($) {
     function $mol_dom_qname(name) {
-        return name.replace(/\W/, '').replace(/^(?=\d+)/, '_');
+        return name.replace(/\W/g, '').replace(/^(?=\d+)/, '_');
     }
     $.$mol_dom_qname = $mol_dom_qname;
 })($ || ($ = {}));
@@ -2192,21 +2214,6 @@ var $;
 "use strict";
 var $;
 (function ($) {
-    function $mol_dom_render_fields(el, fields) {
-        for (let key in fields) {
-            const val = fields[key];
-            if (val === undefined)
-                continue;
-            el[key] = val;
-        }
-    }
-    $.$mol_dom_render_fields = $mol_dom_render_fields;
-})($ || ($ = {}));
-//fields.js.map
-;
-"use strict";
-var $;
-(function ($) {
     function $mol_dom_render_children(el, childNodes) {
         const node_set = new Set(childNodes);
         let nextNode = el.firstChild;
@@ -2262,14 +2269,28 @@ var $;
 "use strict";
 var $;
 (function ($) {
+    function $mol_dom_render_fields(el, fields) {
+        for (let key in fields) {
+            const val = fields[key];
+            if (val === undefined)
+                continue;
+            el[key] = val;
+        }
+    }
+    $.$mol_dom_render_fields = $mol_dom_render_fields;
+})($ || ($ = {}));
+//fields.js.map
+;
+"use strict";
+var $;
+(function ($) {
     class $mol_memo extends $.$mol_wrapper {
         static wrap(task) {
             const store = new WeakMap();
             return function (next) {
-                var _a;
                 if (next === undefined && store.has(this))
                     return store.get(this);
-                const val = (_a = task.call(this, next)) !== null && _a !== void 0 ? _a : next;
+                const val = task.call(this, next) ?? next;
                 store.set(this, val);
                 return val;
             };
@@ -2284,7 +2305,7 @@ var $;
 (function ($) {
     function $mol_func_name(func) {
         let name = func.name;
-        if ((name === null || name === void 0 ? void 0 : name.length) > 1)
+        if (name?.length > 1)
             return name;
         for (let key in this) {
             try {
@@ -2294,7 +2315,7 @@ var $;
                 Object.defineProperty(func, 'name', { value: name });
                 break;
             }
-            catch (_a) { }
+            catch { }
         }
         return name;
     }
@@ -2397,10 +2418,9 @@ var $;
             return this.minimal_width();
         }
         minimal_height() {
-            var _a;
             let min = 0;
             try {
-                for (const view of (_a = this.sub()) !== null && _a !== void 0 ? _a : []) {
+                for (const view of this.sub() ?? []) {
                     if (view instanceof $mol_view) {
                         min = Math.max(min, view.minimal_height());
                     }
@@ -2473,6 +2493,7 @@ var $;
                     console.error(error);
                 }
             }
+            this.auto();
             return node;
         }
         dom_node_actual() {
@@ -2483,9 +2504,9 @@ var $;
             const fields = this.field();
             $.$mol_dom_render_attributes(node, attr);
             $.$mol_dom_render_styles(node, style);
-            $.$mol_dom_render_fields(node, fields);
             return node;
         }
+        auto() { }
         render() {
             const node = this.dom_node_actual();
             const sub = this.sub_visible();
@@ -2502,6 +2523,7 @@ var $;
             for (const el of sub)
                 if (el && typeof el === 'object' && 'dom_tree' in el)
                     el['dom_tree']();
+            $.$mol_dom_render_fields(node, this.field());
         }
         static view_classes() {
             const proto = this.prototype;
@@ -2926,6 +2948,25 @@ var $;
 "use strict";
 var $;
 (function ($) {
+    $.$mol_style_attach("mol/gap/gap.css", ":root {\n\t--mol_gap_block: .75rem;\n\t--mol_gap_text: .5rem .75rem;\n\t--mol_gap_round: .25rem;\n}\n");
+})($ || ($ = {}));
+//gap.css.js.map
+;
+"use strict";
+var $;
+(function ($) {
+    const { vary } = $.$mol_style_func;
+    $.$mol_gap = {
+        block: vary('--mol_gap_block'),
+        text: vary('--mol_gap_text'),
+        round: vary('--mol_gap_round'),
+    };
+})($ || ($ = {}));
+//gap.js.map
+;
+"use strict";
+var $;
+(function ($) {
     class $mol_scroll extends $.$mol_view {
         minimal_height() {
             return 0;
@@ -2936,10 +2977,18 @@ var $;
             return null;
         }
         field() {
-            return Object.assign(Object.assign({}, super.field()), { scrollTop: this.scroll_top(), scrollLeft: this.scroll_left(), tabIndex: this.tabindex() });
+            return {
+                ...super.field(),
+                scrollTop: this.scroll_top(),
+                scrollLeft: this.scroll_left(),
+                tabIndex: this.tabindex()
+            };
         }
         event() {
-            return Object.assign(Object.assign({}, super.event()), { scroll: (event) => this.event_scroll(event) });
+            return {
+                ...super.event(),
+                scroll: (event) => this.event_scroll(event)
+            };
         }
         scroll_top(val) {
             if (val !== undefined)
@@ -3088,8 +3137,11 @@ var $;
     (function ($$) {
         const { per, rem, px } = $.$mol_style_unit;
         $.$mol_style_define($$.$mol_scroll, {
-            display: 'flex',
             overflow: 'auto',
+        });
+        $.$mol_style_define($$.$mol_scroll, {
+            display: 'flex',
+            overflow: 'overlay',
             flex: {
                 direction: 'column',
                 grow: 1,
@@ -3113,8 +3165,8 @@ var $;
                 color: [$.$mol_theme.line, 'transparent'],
             },
             '::-webkit-scrollbar': {
-                width: rem(.5),
-                height: rem(.5),
+                width: rem(.25),
+                height: rem(.25),
             },
             '::-webkit-scrollbar-corner': {
                 background: {
@@ -3129,6 +3181,9 @@ var $;
             '::-webkit-scrollbar-thumb': {
                 background: {
                     color: $.$mol_theme.line,
+                },
+                border: {
+                    radius: $.$mol_gap.round,
                 },
             },
             '@media': {
@@ -3159,8 +3214,7 @@ var $;
                 return next;
             }
             event_scroll(next) {
-                var _a;
-                (_a = this._event_scroll_timer()) === null || _a === void 0 ? void 0 : _a.destructor();
+                this._event_scroll_timer()?.destructor();
                 const el = this.dom_node();
                 this._event_scroll_timer(new $.$mol_after_timeout(200, $.$mol_fiber_solid.func(() => {
                     this.scroll_top(Math.max(0, el.scrollTop));
@@ -3213,7 +3267,7 @@ var $;
 "use strict";
 var $;
 (function ($) {
-    $.$mol_style_attach("mol/book2/book2.view.css", "[mol_book2] {\n\tdisplay: flex;\n\tflex-flow: row nowrap;\n\talign-items: stretch;\n\toverflow: hidden;\n\tflex: 1 1 auto;\n\talign-self: stretch;\n\tmargin: 0;\n\tbox-shadow: 0 0 0 1px var(--mol_theme_line);\n\t/* transform: translateZ(0); */\n\ttransition: none;\n\toverflow: auto;\n\tscroll-snap-type: x proximity;\n}\n\n[mol_book2] > * {\n\tflex: none;\n\tscroll-snap-stop: always;\n\tscroll-snap-align: end;\n\tposition: relative;\n\t/* z-index: 0; */\n\tmin-height: 100%;\n\tmax-height: 100%;\n\tmax-width: 100%;\n}\n\n[mol_book2] > [mol_view] {\n\ttransform: none; /* prevent content clipping */\n}\n\n[mol_book2_placeholder] {\n\tflex: 1 1 0;\n\t/* background: var(--mol_theme_back); */\n}\n");
+    $.$mol_style_attach("mol/book2/book2.view.css", "[mol_book2] {\n\tdisplay: flex;\n\tflex-flow: row nowrap;\n\talign-items: stretch;\n\tflex: 1 1 auto;\n\talign-self: stretch;\n\tmargin: 0;\n\tbox-shadow: 0 0 0 1px var(--mol_theme_line);\n\t/* transform: translateZ(0); */\n\ttransition: none;\n\toverflow: overlay;\n\tscroll-snap-type: x proximity;\n}\n\n[mol_book2] > * {\n/* \tflex: none; */\n\tscroll-snap-stop: always;\n\tscroll-snap-align: end;\n\tposition: relative;\n\t/* z-index: 0; */\n\tmin-height: 100%;\n\tmax-height: 100%;\n\tmax-width: 100%;\n}\n\n[mol_book2] > [mol_view] {\n\ttransform: none; /* prevent content clipping */\n}\n\n[mol_book2_placeholder] {\n\tflex: 1 1 0;\n\t/* background: var(--mol_theme_back); */\n}\n");
 })($ || ($ = {}));
 //book2.view.css.js.map
 ;
@@ -3224,12 +3278,11 @@ var $;
     (function ($$) {
         class $mol_book2 extends $.$mol_book2 {
             title() {
-                return this.pages().map(page => page === null || page === void 0 ? void 0 : page.title()).reverse().filter(Boolean).join(' | ');
+                return this.pages().map(page => page?.title()).reverse().filter(Boolean).join(' | ');
             }
             sub() {
-                var _a;
                 const next = [...this.pages().slice(), this.Placeholder()];
-                const prev = (_a = $.$mol_mem_cached(() => this.sub())) !== null && _a !== void 0 ? _a : [];
+                const prev = $.$mol_mem_cached(() => this.sub()) ?? [];
                 for (let i = 1; i++;) {
                     const p = prev[prev.length - i];
                     const n = next[next.length - i];
@@ -3254,30 +3307,19 @@ var $;
 "use strict";
 var $;
 (function ($) {
-    $.$mol_style_attach("mol/gap/gap.css", ":root {\n\t--mol_gap_block: .75rem;\n\t--mol_gap_text: .5rem .75rem;\n}\n");
-})($ || ($ = {}));
-//gap.css.js.map
-;
-"use strict";
-var $;
-(function ($) {
-    const { vary } = $.$mol_style_func;
-    $.$mol_gap = {
-        block: vary('--mol_gap_block'),
-        text: vary('--mol_gap_text'),
-    };
-})($ || ($ = {}));
-//gap.js.map
-;
-"use strict";
-var $;
-(function ($) {
     class $mol_link extends $.$mol_view {
         dom_name() {
             return "a";
         }
         attr() {
-            return Object.assign(Object.assign({}, super.attr()), { href: this.uri(), title: this.hint(), target: this.target(), download: this.file_name(), mol_link_current: this.current() });
+            return {
+                ...super.attr(),
+                href: this.uri(),
+                title: this.hint(),
+                target: this.target(),
+                download: this.file_name(),
+                mol_link_current: this.current()
+            };
         }
         sub() {
             return [
@@ -3288,7 +3330,10 @@ var $;
             return {};
         }
         event() {
-            return Object.assign(Object.assign({}, super.event()), { click: (event) => this.click(event) });
+            return {
+                ...super.event(),
+                click: (event) => this.click(event)
+            };
         }
         uri() {
             return "";
@@ -3413,6 +3458,9 @@ var $;
         boxSizing: 'border-box',
         position: 'relative',
         minWidth: rem(2.5),
+        border: {
+            radius: $.$mol_gap.round,
+        },
         ':hover': {
             background: {
                 color: $.$mol_theme.hover,
@@ -3452,7 +3500,14 @@ var $;
     (function ($$) {
         class $mol_link extends $.$mol_link {
             uri() {
-                return new this.$.$mol_state_arg(this.state_key()).link(this.arg());
+                const arg = this.arg();
+                const uri = new this.$.$mol_state_arg(this.state_key()).link(arg);
+                if (uri !== this.$.$mol_state_arg.href())
+                    return uri;
+                const arg2 = {};
+                for (let i in arg)
+                    arg2[i] = null;
+                return new this.$.$mol_state_arg(this.state_key()).link(arg2);
             }
             uri_native() {
                 const base = this.$.$mol_state_arg.href();
@@ -3603,9 +3658,17 @@ var $;
 "use strict";
 var $;
 (function ($) {
+    function parse(theme) {
+        if (theme === 'on')
+            return true;
+        if (theme === 'off')
+            return false;
+        return null;
+    }
     function $mol_lights(next) {
-        var _a;
-        return (_a = this.$mol_state_local.value('$mol_lights', next)) !== null && _a !== void 0 ? _a : $.$mol_dom_context.matchMedia('(prefers-color-scheme: light)').matches;
+        return this.$mol_state_local.value('$mol_lights', next)
+            ?? parse(this.$mol_state_arg.value('mol_lights'))
+            ?? $.$mol_dom_context.matchMedia('(prefers-color-scheme: light)').matches;
     }
     $.$mol_lights = $mol_lights;
 })($ || ($ = {}));
@@ -3629,8 +3692,7 @@ var $;
 "use strict";
 var $;
 (function ($) {
-    var _a;
-    const TextDecoder = (_a = globalThis.TextDecoder) !== null && _a !== void 0 ? _a : $node.util.TextDecoder;
+    const TextDecoder = globalThis.TextDecoder ?? $node.util.TextDecoder;
     function $mol_charset_decode(value, code = 'utf8') {
         return new TextDecoder(code).decode(value);
     }
@@ -3641,8 +3703,7 @@ var $;
 "use strict";
 var $;
 (function ($) {
-    var _a;
-    const TextEncoder = (_a = globalThis.TextEncoder) !== null && _a !== void 0 ? _a : $node.util.TextEncoder;
+    const TextEncoder = globalThis.TextEncoder ?? $node.util.TextEncoder;
     const encoder = new TextEncoder();
     function $mol_charset_encode(value) {
         return encoder.encode(value);
@@ -3872,7 +3933,7 @@ var $;
             const path = this.path();
             this.parent().watcher();
             try {
-                stat = next !== null && next !== void 0 ? next : stat_convert($node.fs.statSync(path));
+                stat = next ?? stat_convert($node.fs.statSync(path));
             }
             catch (error) {
                 if (error.code === 'ENOENT')
@@ -4137,7 +4198,11 @@ var $;
             return "svg";
         }
         attr() {
-            return Object.assign(Object.assign({}, super.attr()), { viewBox: this.view_box(), preserveAspectRatio: this.aspect() });
+            return {
+                ...super.attr(),
+                viewBox: this.view_box(),
+                preserveAspectRatio: this.aspect()
+            };
         }
         view_box() {
             return "0 0 100 100";
@@ -4165,7 +4230,10 @@ var $;
             return "path";
         }
         attr() {
-            return Object.assign(Object.assign({}, super.attr()), { d: this.geometry() });
+            return {
+                ...super.attr(),
+                d: this.geometry()
+            };
         }
         geometry() {
             return "";
@@ -4257,10 +4325,16 @@ var $;
 (function ($) {
     class $mol_speck extends $.$mol_view {
         attr() {
-            return Object.assign(Object.assign({}, super.attr()), { mol_theme: "$mol_theme_accent" });
+            return {
+                ...super.attr(),
+                mol_theme: "$mol_theme_accent"
+            };
         }
         style() {
-            return Object.assign(Object.assign({}, super.style()), { minHeight: "1em" });
+            return {
+                ...super.style(),
+                minHeight: "1em"
+            };
         }
         sub() {
             return [
@@ -4303,10 +4377,20 @@ var $;
             return null;
         }
         event() {
-            return Object.assign(Object.assign({}, super.event()), { click: (event) => this.event_activate(event), keydown: (event) => this.event_key_press(event) });
+            return {
+                ...super.event(),
+                click: (event) => this.event_activate(event),
+                keydown: (event) => this.event_key_press(event)
+            };
         }
         attr() {
-            return Object.assign(Object.assign({}, super.attr()), { disabled: this.disabled(), role: "button", tabindex: this.tab_index(), title: this.hint_or_error() });
+            return {
+                ...super.attr(),
+                disabled: this.disabled(),
+                role: "button",
+                tabindex: this.tab_index(),
+                title: this.hint_or_error()
+            };
         }
         sub() {
             return [
@@ -4471,7 +4555,7 @@ var $;
 "use strict";
 var $;
 (function ($) {
-    $.$mol_style_attach("mol/button/button.view.css", "[mol_button] {\n\tborder: none;\n\tfont: inherit;\n\tdisplay: inline-flex;\n\tflex-shrink: 0;\n\ttext-decoration: inherit;\n\tcursor: inherit;\n\tposition: relative;\n\tbox-sizing: border-box;\n\tword-break: normal;\n\tcursor: default;\n\tuser-select: none;\n\tmin-width: 2.5rem;\n}\n[mol_button]:focus {\n\toutline: none;\n}\n");
+    $.$mol_style_attach("mol/button/button.view.css", "[mol_button] {\n\tborder: none;\n\tfont: inherit;\n\tdisplay: inline-flex;\n\tflex-shrink: 0;\n\ttext-decoration: inherit;\n\tcursor: inherit;\n\tposition: relative;\n\tbox-sizing: border-box;\n\tword-break: normal;\n\tcursor: default;\n\tuser-select: none;\n\tmin-width: 2.5rem;\n\tborder-radius: var(--mol_gap_round);\n}\n[mol_button]:focus {\n\toutline: none;\n}\n");
 })($ || ($ = {}));
 //button.view.css.js.map
 ;
@@ -4506,16 +4590,15 @@ var $;
                 return this.enabled() ? super.tab_index() : -1;
             }
             error() {
-                var _a, _b;
                 try {
-                    (_a = this.fiber()) === null || _a === void 0 ? void 0 : _a.get();
+                    this.fiber()?.get();
                     return '';
                 }
                 catch (error) {
                     if (error instanceof Promise) {
                         return $.$mol_fail_hidden(error);
                     }
-                    return String((_b = error.message) !== null && _b !== void 0 ? _b : error);
+                    return String(error.message ?? error);
                 }
             }
             hint_or_error() {
@@ -4548,7 +4631,7 @@ var $;
 "use strict";
 var $;
 (function ($) {
-    $.$mol_style_attach("mol/button/typed/typed.view.css", "[mol_button_typed] {\n\tdisplay: inline-block;\n\talign-content: center;\n\talign-items: center;\n\tvertical-align: middle;\n\ttext-align: center;\n\tpadding: var(--mol_gap_text);\n\tborder-radius: var(--mol_skin_round);\n}\n\n[mol_button_typed][disabled] {\n\tcolor: var(--mol_theme_text);\n\tpointer-events: none;\n}\n\n[mol_button_typed]:hover ,\n[mol_button_typed]:focus {\n\tcursor: pointer;\n\tbackground-color: var(--mol_theme_hover);\n}\n");
+    $.$mol_style_attach("mol/button/typed/typed.view.css", "[mol_button_typed] {\n\tdisplay: inline-block;\n\talign-content: center;\n\talign-items: center;\n\tvertical-align: middle;\n\ttext-align: center;\n\tpadding: var(--mol_gap_text);\n\tborder-radius: var(--mol_gap_round);\n}\n\n[mol_button_typed][disabled] {\n\tcolor: var(--mol_theme_text);\n\tpointer-events: none;\n}\n\n[mol_button_typed]:hover ,\n[mol_button_typed]:focus {\n\tcursor: pointer;\n\tbackground-color: var(--mol_theme_hover);\n}\n");
 })($ || ($ = {}));
 //typed.view.css.js.map
 ;
@@ -4573,7 +4656,12 @@ var $;
 (function ($) {
     class $mol_check extends $.$mol_button_minor {
         attr() {
-            return Object.assign(Object.assign({}, super.attr()), { mol_check_checked: this.checked(), "aria-checked": this.checked(), role: "checkbox" });
+            return {
+                ...super.attr(),
+                mol_check_checked: this.checked(),
+                "aria-checked": this.checked(),
+                role: "checkbox"
+            };
         }
         sub() {
             return [
@@ -4639,6 +4727,8 @@ var $;
     (function ($$) {
         class $mol_check extends $.$mol_check {
             click(next) {
+                if (next?.defaultPrevented)
+                    return;
                 this.checked(!this.checked());
                 if (next)
                     next.preventDefault();
@@ -4755,6 +4845,12 @@ var $;
                 return val;
             return false;
         }
+        align_vert() {
+            return "";
+        }
+        align_hor() {
+            return "";
+        }
         sub() {
             return [
                 this.Anchor(),
@@ -4801,10 +4897,17 @@ var $;
             return this.content();
         }
         style() {
-            return Object.assign(Object.assign({}, super.style()), { maxHeight: this.height_max() });
+            return {
+                ...super.style(),
+                maxHeight: this.height_max()
+            };
         }
         attr() {
-            return Object.assign(Object.assign({}, super.attr()), { mol_pop_align: this.align(), tabindex: 0 });
+            return {
+                ...super.attr(),
+                mol_pop_align: this.align(),
+                tabindex: 0
+            };
         }
         content() {
             return [];
@@ -4823,7 +4926,7 @@ var $;
 "use strict";
 var $;
 (function ($) {
-    $.$mol_style_attach("mol/pop/pop.view.css", "[mol_pop] {\n\tposition: relative;\n\tdisplay: inline-flex;\n}\n\n[mol_pop]:hover {\n\tz-index: 4;\n}\n\n[mol_pop_bubble] {\n\tbox-shadow: 0 0 1rem hsla(0,0%,0%,.5);\n\tborder-radius: var(--mol_skin_round);\n\tposition: absolute;\n\tz-index: 3;\n\tbackground: var(--mol_theme_back);\n\tmax-width: none;\n\tmax-height: none;\n\toverflow: hidden;\n\toverflow-y: auto;\n\tword-break: normal;\n}\n\n[mol_pop_bubble][mol_scroll] {\n\tbackground: var(--mol_theme_back);\n}\n\n[mol_pop_bubble]:focus {\n\toutline: none;\n}\n\n[mol_pop_align=\"suspense\"] {\n\tdisplay: none;\n}\n\n[mol_pop_align=\"left_top\"] {\n\ttransform: translate(-100%);\n\tleft: 0;\n\tbottom: 0;\n}\n\n[mol_pop_align=\"left_center\"] {\n\ttransform: translate(-100%, -50%);\n\tleft: 0;\n\ttop: 50%;\n}\n\n[mol_pop_align=\"left_bottom\"] {\n\ttransform: translate(-100%);\n\tleft: 0;\n\ttop: 0;\n}\n\n[mol_pop_align=\"right_top\"] {\n\ttransform: translate(100%);\n\tright: 0;\n\tbottom: 0;\n}\n\n[mol_pop_align=\"right_center\"] {\n\ttransform: translate(100%, -50%);\n\tright: 0;\n\ttop: 50%;\n}\n\n[mol_pop_align=\"right_bottom\"] {\n\ttransform: translate(100%);\n\tright: 0;\n\ttop: 0;\n}\n\n[mol_pop_align=\"center\"] {\n\tleft: 50%;\n\ttop: 50%;\n\ttransform: translate(-50%, -50%);\n}\n\n[mol_pop_align=\"top_left\"] {\n\tright: 0;\n\tbottom: 100%;\n}\n\n[mol_pop_align=\"top_center\"] {\n\ttransform: translate(-50%);\n\tleft: 50%;\n\tbottom: 100%;\n}\n\n[mol_pop_align=\"top_right\"] {\n\tleft: 0;\n\tbottom: 100%;\n}\n\n[mol_pop_align=\"bottom_left\"] {\n\tright: 0;\n\ttop: 100%;\n}\n\n[mol_pop_align=\"bottom_center\"] {\n\ttransform: translate(-50%);\n\tleft: 50%;\n\ttop: 100%;\n}\n\n[mol_pop_align=\"bottom_right\"] {\n\tleft: 0;\n\ttop: 100%;\n}\n");
+    $.$mol_style_attach("mol/pop/pop.view.css", "[mol_pop] {\n\tposition: relative;\n\tdisplay: inline-flex;\n}\n\n[mol_pop]:hover {\n\tz-index: 4;\n}\n\n[mol_pop_bubble] {\n\tbox-shadow: 0 0 1rem hsla(0,0%,0%,.5);\n\tborder-radius: var(--mol_gap_round);\n\tposition: absolute;\n\tz-index: 3;\n\tbackground: var(--mol_theme_back);\n\tmax-width: none;\n\tmax-height: none;\n\toverflow: hidden;\n\toverflow-y: overlay;\n\tword-break: normal;\n}\n\n[mol_pop_bubble][mol_scroll] {\n\tbackground: var(--mol_theme_back);\n}\n\n[mol_pop_bubble]:focus {\n\toutline: none;\n}\n\n[mol_pop_align=\"suspense\"] {\n\tdisplay: none;\n}\n\n[mol_pop_align=\"left_top\"] {\n\ttransform: translate(-100%);\n\tleft: 0;\n\tbottom: 0;\n}\n\n[mol_pop_align=\"left_center\"] {\n\ttransform: translate(-100%, -50%);\n\tleft: 0;\n\ttop: 50%;\n}\n\n[mol_pop_align=\"left_bottom\"] {\n\ttransform: translate(-100%);\n\tleft: 0;\n\ttop: 0;\n}\n\n[mol_pop_align=\"right_top\"] {\n\ttransform: translate(100%);\n\tright: 0;\n\tbottom: 0;\n}\n\n[mol_pop_align=\"right_center\"] {\n\ttransform: translate(100%, -50%);\n\tright: 0;\n\ttop: 50%;\n}\n\n[mol_pop_align=\"right_bottom\"] {\n\ttransform: translate(100%);\n\tright: 0;\n\ttop: 0;\n}\n\n[mol_pop_align=\"center\"] {\n\tleft: 50%;\n\ttop: 50%;\n\ttransform: translate(-50%, -50%);\n}\n\n[mol_pop_align=\"top_left\"] {\n\tright: 0;\n\tbottom: 100%;\n}\n\n[mol_pop_align=\"top_center\"] {\n\ttransform: translate(-50%);\n\tleft: 50%;\n\tbottom: 100%;\n}\n\n[mol_pop_align=\"top_right\"] {\n\tleft: 0;\n\tbottom: 100%;\n}\n\n[mol_pop_align=\"bottom_left\"] {\n\tright: 0;\n\ttop: 100%;\n}\n\n[mol_pop_align=\"bottom_center\"] {\n\ttransform: translate(-50%);\n\tleft: 50%;\n\ttop: 100%;\n}\n\n[mol_pop_align=\"bottom_right\"] {\n\tleft: 0;\n\ttop: 100%;\n}\n");
 })($ || ($ = {}));
 //pop.view.css.js.map
 ;
@@ -4833,6 +4936,10 @@ var $;
     var $$;
     (function ($$) {
         class $mol_pop extends $.$mol_pop {
+            showed(next = false) {
+                this.focused();
+                return next;
+            }
             sub() {
                 return [
                     this.Anchor(),
@@ -4840,16 +4947,31 @@ var $;
                 ];
             }
             height_max() {
-                return this.$.$mol_window.size().height * 0.33;
+                const viewport = this.$.$mol_window.size();
+                const rect_bubble = this.view_rect();
+                const align = this.align_vert();
+                if (align === 'bottom')
+                    return (viewport.height - rect_bubble.bottom) * .66;
+                if (align === 'top')
+                    return rect_bubble.top * .66;
+                return 0;
             }
             align() {
+                return `${this.align_vert()}_${this.align_hor()}`;
+            }
+            align_vert() {
                 const viewport = this.$.$mol_window.size();
                 const rect_bubble = this.view_rect();
                 if (!rect_bubble)
                     return 'suspense';
-                const vert = rect_bubble.top > (viewport.height - rect_bubble.bottom) ? 'top' : 'bottom';
-                const hor = rect_bubble.left > (viewport.width - rect_bubble.right) ? 'left' : 'right';
-                return `${vert}_${hor}`;
+                return rect_bubble.top > (viewport.height - rect_bubble.bottom) ? 'top' : 'bottom';
+            }
+            align_hor() {
+                const viewport = this.$.$mol_window.size();
+                const rect_bubble = this.view_rect();
+                if (!rect_bubble)
+                    return 'suspense';
+                return rect_bubble.left > (viewport.width - rect_bubble.right) ? 'left' : 'right';
             }
             keydown(event) {
                 if (event.defaultPrevented)
@@ -4862,6 +4984,21 @@ var $;
                 }
             }
         }
+        __decorate([
+            $.$mol_mem
+        ], $mol_pop.prototype, "showed", null);
+        __decorate([
+            $.$mol_mem
+        ], $mol_pop.prototype, "height_max", null);
+        __decorate([
+            $.$mol_mem
+        ], $mol_pop.prototype, "align", null);
+        __decorate([
+            $.$mol_mem
+        ], $mol_pop.prototype, "align_vert", null);
+        __decorate([
+            $.$mol_mem
+        ], $mol_pop.prototype, "align_hor", null);
         $$.$mol_pop = $mol_pop;
     })($$ = $.$$ || ($.$$ = {}));
 })($ || ($ = {}));
@@ -4872,7 +5009,10 @@ var $;
 (function ($) {
     class $mol_hotkey extends $.$mol_plugin {
         event() {
-            return Object.assign(Object.assign({}, super.event()), { keydown: (event) => this.keydown(event) });
+            return {
+                ...super.event(),
+                keydown: (event) => this.keydown(event)
+            };
         }
         key() {
             return {};
@@ -4961,12 +5101,12 @@ var $;
         current_x(val) {
             if (val !== undefined)
                 return val;
-            return "";
+            return null;
         }
         current_y(val) {
             if (val !== undefined)
                 return val;
-            return "";
+            return null;
         }
         event_up(event) {
             if (event !== undefined)
@@ -4989,7 +5129,10 @@ var $;
             return null;
         }
         event() {
-            return Object.assign(Object.assign({}, super.event()), { keydown: (event) => this.event_key(event) });
+            return {
+                ...super.event(),
+                keydown: (event) => this.event_key(event)
+            };
         }
         event_key(event) {
             if (event !== undefined)
@@ -5147,19 +5290,49 @@ var $;
         autocomplete() {
             return false;
         }
+        selection(val) {
+            if (val !== undefined)
+                return val;
+            return [];
+        }
+        auto() {
+            return [
+                this.selection_watcher()
+            ];
+        }
         field() {
-            return Object.assign(Object.assign({}, super.field()), { disabled: this.disabled(), value: this.value_changed(), placeholder: this.hint(), spellcheck: this.spellcheck(), autocomplete: this.autocomplete_native() });
+            return {
+                ...super.field(),
+                disabled: this.disabled(),
+                value: this.value_changed(),
+                placeholder: this.hint(),
+                spellcheck: this.spellcheck(),
+                autocomplete: this.autocomplete_native(),
+                selectionEnd: this.selection_end(),
+                selectionStart: this.selection_start()
+            };
         }
         attr() {
-            return Object.assign(Object.assign({}, super.attr()), { maxlength: this.length_max(), type: this.type() });
+            return {
+                ...super.attr(),
+                maxlength: this.length_max(),
+                type: this.type()
+            };
         }
         event() {
-            return Object.assign(Object.assign({}, super.event()), { input: (event) => this.event_change(event), keydown: (event) => this.event_key_press(event) });
+            return {
+                ...super.event(),
+                input: (event) => this.event_change(event),
+                keydown: (event) => this.event_key_press(event)
+            };
         }
         plugins() {
             return [
                 this.Submit()
             ];
+        }
+        selection_watcher() {
+            return null;
         }
         disabled() {
             return false;
@@ -5180,6 +5353,12 @@ var $;
         }
         autocomplete_native() {
             return "";
+        }
+        selection_end() {
+            return 0;
+        }
+        selection_start() {
+            return 0;
         }
         length_max() {
             return Infinity;
@@ -5214,6 +5393,9 @@ var $;
     }
     __decorate([
         $.$mol_mem
+    ], $mol_string.prototype, "selection", null);
+    __decorate([
+        $.$mol_mem
     ], $mol_string.prototype, "value", null);
     __decorate([
         $.$mol_mem
@@ -5237,7 +5419,7 @@ var $;
 "use strict";
 var $;
 (function ($) {
-    $.$mol_style_attach("mol/string/string.view.css", "[mol_string] {\n\tbox-sizing: border-box;\n\toutline-offset: 0;\n\tborder: none;\n\tborder-radius: var(--mol_skin_round);\n\twhite-space: nowrap;\n\toverflow: hidden;\n\tpadding: var(--mol_gap_text);\n\ttext-align: left;\n\tposition: relative;\n\tz-index: 0;\n\tfont: inherit;\n\tflex: 0 1 auto;\n\tbackground: var(--mol_theme_field);\n\tcolor: var(--mol_theme_text);\n\tbox-shadow: inset 0 0 0 1px var(--mol_theme_line);\n}\n\n[mol_string]:disabled {\n\tbackground-color: transparent;\n}\n\n[mol_string]:focus {\n\toutline: none;\n\tz-index: 1;\n\tbox-shadow: inset 0 0 0 1px var(--mol_theme_focus);\n}\n\n[mol_string]::-ms-clear {\n\tdisplay: none;\n}\n");
+    $.$mol_style_attach("mol/string/string.view.css", "[mol_string] {\n\tbox-sizing: border-box;\n\toutline-offset: 0;\n\tborder: none;\n\tborder-radius: var(--mol_gap_round);\n\twhite-space: nowrap;\n\toverflow: hidden;\n\tpadding: var(--mol_gap_text);\n\ttext-align: left;\n\tposition: relative;\n\tz-index: 0;\n\tfont: inherit;\n\tflex: 1 1 auto;\n\tbackground: var(--mol_theme_field);\n\tcolor: var(--mol_theme_text);\n\tbox-shadow: inset 0 0 0 1px var(--mol_theme_line);\n}\n\n[mol_string]:disabled {\n\tbackground-color: transparent;\n}\n\n[mol_string]:focus {\n\toutline: none;\n\tz-index: 1;\n\tbox-shadow: inset 0 0 0 1px var(--mol_theme_focus);\n}\n\n[mol_string]::-ms-clear {\n\tdisplay: none;\n}\n");
 })($ || ($ = {}));
 //string.view.css.js.map
 ;
@@ -5251,6 +5433,7 @@ var $;
                 if (!next)
                     return;
                 this.value(next.target.value);
+                this.selection_change(next);
             }
             disabled() {
                 return !this.enabled();
@@ -5258,7 +5441,26 @@ var $;
             autocomplete_native() {
                 return this.autocomplete() ? 'on' : 'off';
             }
+            selection_watcher() {
+                return new $.$mol_dom_listener(this.$.$mol_dom_context.document, 'selectionchange', event => this.selection_change(event));
+            }
+            selection_change(event) {
+                const el = this.dom_node();
+                this.selection([
+                    el.selectionStart,
+                    el.selectionEnd,
+                ]);
+            }
+            selection_start() {
+                return this.selection()[0];
+            }
+            selection_end() {
+                return this.selection()[1];
+            }
         }
+        __decorate([
+            $.$mol_mem
+        ], $mol_string.prototype, "selection_watcher", null);
         $$.$mol_string = $mol_string;
     })($$ = $.$$ || ($.$$ = {}));
 })($ || ($ = {}));
@@ -5328,8 +5530,7 @@ var $;
 var $;
 (function ($) {
     function $mol_support_css_overflow_anchor() {
-        var _a, _b;
-        return (_b = (_a = this.$mol_dom_context.CSS) === null || _a === void 0 ? void 0 : _a.supports('overflow-anchor:auto')) !== null && _b !== void 0 ? _b : false;
+        return this.$mol_dom_context.CSS?.supports('overflow-anchor:auto') ?? false;
     }
     $.$mol_support_css_overflow_anchor = $mol_support_css_overflow_anchor;
 })($ || ($ = {}));
@@ -5356,13 +5557,12 @@ var $;
                 return this.$.$mol_support_css_overflow_anchor();
             }
             view_window() {
-                var _a, _b, _c, _d, _e, _f;
                 const kids = this.sub();
                 if (kids.length < 3)
                     return [0, kids.length];
                 if (this.$.$mol_print.active())
                     return [0, kids.length];
-                let [min, max] = (_a = $.$mol_mem_cached(() => this.view_window())) !== null && _a !== void 0 ? _a : [0, 0];
+                let [min, max] = $.$mol_mem_cached(() => this.view_window()) ?? [0, 0];
                 let max2 = max = Math.min(max, kids.length);
                 let min2 = min = Math.max(0, Math.min(min, max - 1));
                 const anchoring = this.render_visible_only();
@@ -5371,16 +5571,16 @@ var $;
                 const limit_top = -over;
                 const limit_bottom = window_height + over;
                 const rect = this.view_rect();
-                const gap_before = (_b = $.$mol_mem_cached(() => this.gap_before())) !== null && _b !== void 0 ? _b : 0;
-                const gap_after = (_c = $.$mol_mem_cached(() => this.gap_after())) !== null && _c !== void 0 ? _c : 0;
-                let top = Math.ceil((_d = rect === null || rect === void 0 ? void 0 : rect.top) !== null && _d !== void 0 ? _d : 0) + gap_before;
-                let bottom = Math.ceil((_e = rect === null || rect === void 0 ? void 0 : rect.bottom) !== null && _e !== void 0 ? _e : 0) - gap_after;
+                const gap_before = $.$mol_mem_cached(() => this.gap_before()) ?? 0;
+                const gap_after = $.$mol_mem_cached(() => this.gap_after()) ?? 0;
+                let top = Math.ceil(rect?.top ?? 0) + gap_before;
+                let bottom = Math.ceil(rect?.bottom ?? 0) - gap_after;
                 if (top <= limit_top && bottom >= limit_bottom) {
                     return [min2, max2];
                 }
                 if (anchoring && ((bottom < limit_top) || (top > limit_bottom))) {
                     min = 0;
-                    top = Math.ceil((_f = rect === null || rect === void 0 ? void 0 : rect.top) !== null && _f !== void 0 ? _f : 0);
+                    top = Math.ceil(rect?.top ?? 0);
                     while (min < (kids.length - 1)) {
                         const height = kids[min].minimal_height();
                         if (top + height >= limit_top)
@@ -5421,13 +5621,11 @@ var $;
                 return Math.max(0, skipped.reduce((sum, view) => sum + view.minimal_height(), 0));
             }
             sub_visible() {
-                var sub = this.sub();
-                const next = sub.slice(...this.view_window());
-                if (this.gap_before())
-                    next.unshift(this.Gap_before());
-                if (this.gap_after())
-                    next.push(this.Gap_after());
-                return next;
+                return [
+                    ...this.gap_before() ? [this.Gap_before()] : [],
+                    ...this.sub().slice(...this.view_window()),
+                    ...this.gap_after() ? [this.Gap_after()] : [],
+                ];
             }
             minimal_height() {
                 return this.sub().reduce((sum, view) => {
@@ -5593,51 +5791,126 @@ var $;
 //dimmer.view.tree.js.map
 ;
 "use strict";
+//equals.js.map
+;
+"use strict";
+//merge.js.map
+;
+"use strict";
 //intersect.js.map
+;
+"use strict";
+//unicode.js.map
 ;
 "use strict";
 var $;
 (function ($) {
     class $mol_regexp extends RegExp {
-        constructor(source, flags = '', groups = []) {
+        constructor(source, flags = 'gsu', groups = []) {
             super(source, flags);
             this.groups = groups;
         }
-        get parse() {
-            const self = this;
-            return function* (str, from = 0) {
-                while (from < str.length) {
-                    self.lastIndex = from;
-                    const res = self.exec(str);
-                    if (res === null) {
-                        yield { 0: str.substring(from) };
-                        return null;
-                    }
-                    if (from === self.lastIndex) {
-                        $.$mol_fail(new Error('Captured empty substring'));
-                    }
-                    const found = {};
-                    const skipped = str.slice(from, self.lastIndex - res[0].length);
-                    if (skipped)
-                        yield { 0: skipped };
-                    from = self.lastIndex;
-                    for (let i = 0; i < self.groups.length; ++i) {
-                        const group = self.groups[i];
-                        found[group] = found[group] || res[i + 1] || '';
-                    }
+        *[Symbol.matchAll](str) {
+            const index = this.lastIndex;
+            this.lastIndex = 0;
+            try {
+                while (this.lastIndex < str.length) {
+                    const found = this.exec(str);
+                    if (!found)
+                        break;
                     yield found;
                 }
-            };
+            }
+            finally {
+                this.lastIndex = index;
+            }
+        }
+        [Symbol.match](str) {
+            const res = [...this[Symbol.matchAll](str)].filter(r => r.groups).map(r => r[0]);
+            if (!res.length)
+                return null;
+            return res;
+        }
+        [Symbol.split](str) {
+            const res = [];
+            let token_last = null;
+            for (let token of this[Symbol.matchAll](str)) {
+                if (token.groups && (token_last ? token_last.groups : true))
+                    res.push('');
+                res.push(token[0]);
+                token_last = token;
+            }
+            if (!res.length)
+                res.push('');
+            return res;
+        }
+        test(str) {
+            return Boolean(str.match(this));
+        }
+        exec(str) {
+            const from = this.lastIndex;
+            if (from >= str.length)
+                return null;
+            const res = super.exec(str);
+            if (res === null) {
+                this.lastIndex = str.length;
+                if (!str)
+                    return null;
+                return Object.assign([str.slice(from)], {
+                    index: from,
+                    input: str,
+                });
+            }
+            if (from === this.lastIndex) {
+                $.$mol_fail(new Error('Captured empty substring'));
+            }
+            const groups = {};
+            const skipped = str.slice(from, this.lastIndex - res[0].length);
+            if (skipped) {
+                this.lastIndex = this.lastIndex - res[0].length;
+                return Object.assign([skipped], {
+                    index: from,
+                    input: res.input,
+                });
+            }
+            for (let i = 0; i < this.groups.length; ++i) {
+                const group = this.groups[i];
+                groups[group] = groups[group] || res[i + 1] || '';
+            }
+            return Object.assign(res, { groups });
+        }
+        generate(params) {
+            return null;
         }
         static repeat(source, min = 0, max = Number.POSITIVE_INFINITY) {
             const regexp = $mol_regexp.from(source);
             const upper = Number.isFinite(max) ? max : '';
-            return new $mol_regexp(`(?:${regexp.source}){${min},${upper}}?`, regexp.flags, regexp.groups);
+            const str = `(?:${regexp.source}){${min},${upper}}?`;
+            const regexp2 = new $mol_regexp(str, regexp.flags, regexp.groups);
+            regexp2.generate = params => {
+                const res = regexp.generate(params);
+                if (res)
+                    return res;
+                if (min > 0)
+                    return res;
+                return '';
+            };
+            return regexp2;
         }
         static repeat_greedy(source, min = 0, max = Number.POSITIVE_INFINITY) {
             const regexp = $mol_regexp.from(source);
             const upper = Number.isFinite(max) ? max : '';
-            return new $mol_regexp(`(?:${regexp.source}){${min},${upper}}`, regexp.flags, regexp.groups);
+            const str = `(?:${regexp.source}){${min},${upper}}`;
+            const regexp2 = new $mol_regexp(str, regexp.flags, regexp.groups);
+            regexp2.generate = params => {
+                const res = regexp.generate(params);
+                if (res)
+                    return res;
+                if (min > 0)
+                    return res;
+                return '';
+            };
+            return regexp2;
         }
         static optional(source) {
             return $mol_regexp.repeat_greedy(source, 0, 1);
@@ -5654,29 +5927,44 @@ var $;
             ignoreCase: false,
             multiline: false,
         }) {
-            let flags = 'gu';
+            let flags = 'gsu';
             if (multiline)
                 flags += 'm';
             if (ignoreCase)
                 flags += 'i';
-            if (typeof source === 'string') {
-                return new $mol_regexp(source.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), flags);
+            if (typeof source === 'number') {
+                const src = `\\u{${source.toString(16)}}`;
+                const regexp = new $mol_regexp(src, flags);
+                regexp.generate = () => src;
+                return regexp;
             }
-            else if (source instanceof RegExp) {
-                if (source instanceof $mol_regexp)
-                    return source;
-                const test = new $mol_regexp('|' + source.source);
+            if (typeof source === 'string') {
+                const src = source.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+                const regexp = new $mol_regexp(src, flags);
+                regexp.generate = () => source;
+                return regexp;
+            }
+            else if (source instanceof $mol_regexp) {
+                const regexp = new $mol_regexp(source.source, flags, source.groups);
+                regexp.generate = params => source.generate(params);
+                return regexp;
+            }
+            if (source instanceof RegExp) {
+                const test = new RegExp('|' + source.source);
                 const groups = Array.from({ length: test.exec('').length - 1 }, (_, i) => String(i + 1));
-                return new $mol_regexp(source.source, source.flags, groups);
+                const regexp = new $mol_regexp(source.source, source.flags, groups);
+                regexp.generate = () => '';
+                return regexp;
             }
             if (Array.isArray(source)) {
-                const sources = [];
+                const patterns = source.map(src => Array.isArray(src)
+                    ? $mol_regexp.optional(src)
+                    : $mol_regexp.from(src));
+                const chunks = patterns.map(pattern => pattern.source);
                 const groups = [];
                 let index = 0;
-                for (const item of source) {
-                    const regexp = $mol_regexp.from(item);
-                    sources.push(regexp.source);
-                    for (let group of regexp.groups) {
+                for (const pattern of patterns) {
+                    for (let group of pattern.groups) {
                         if (Number(group) >= 0) {
                             groups.push(String(index++));
                         }
@@ -5685,7 +5973,18 @@ var $;
                         }
                     }
                 }
-                return new $mol_regexp(sources.join(''), flags, groups);
+                const regexp = new $mol_regexp(chunks.join(''), flags, groups);
+                regexp.generate = params => {
+                    let res = '';
+                    for (const pattern of patterns) {
+                        let sub = pattern.generate(params);
+                        if (sub === null)
+                            return '';
+                        res += sub;
+                    }
+                    return res;
+                };
+                return regexp;
             }
             else {
                 const groups = [];
@@ -5695,28 +5994,72 @@ var $;
                     groups.push(...regexp.groups);
                     return `(${regexp.source})`;
                 });
-                return new $mol_regexp(`(?:${chunks.join('|')})`, flags, groups);
+                const regexp = new $mol_regexp(`(?:${chunks.join('|')})`, flags, groups);
+                const validator = new RegExp('^' + regexp.source + '$', flags);
+                regexp.generate = params => {
+                    for (let option in source) {
+                        if (option in params) {
+                            if (typeof params[option] === 'boolean') {
+                                if (!params[option])
+                                    continue;
+                            }
+                            else {
+                                const str = String(params[option]);
+                                if (str.match(validator))
+                                    return str;
+                                $.$mol_fail(new Error(`Wrong param: ${option}=${str}`));
+                            }
+                        }
+                        else {
+                            if (typeof source[option] !== 'object')
+                                continue;
+                        }
+                        const res = $mol_regexp.from(source[option]).generate(params);
+                        if (res)
+                            return res;
+                    }
+                    return null;
+                };
+                return regexp;
             }
         }
-        static char_code(code) {
-            return new $mol_regexp(`\\u${code.toString(16).padStart(4, '0')}`);
+        static unicode_only(...category) {
+            return new $mol_regexp(`\\p{${category.join('=')}}`);
         }
-        static byte_except(...forbidden) {
+        static unicode_except(...category) {
+            return new $mol_regexp(`\\P{${category.join('=')}}`);
+        }
+        static char_range(from, to) {
+            return new $mol_regexp(`${$mol_regexp.from(from).source}-${$mol_regexp.from(to).source}`);
+        }
+        static char_only(...allowed) {
+            const regexp = allowed.map(f => $mol_regexp.from(f).source).join('');
+            return new $mol_regexp(`[${regexp}]`);
+        }
+        static char_except(...forbidden) {
             const regexp = forbidden.map(f => $mol_regexp.from(f).source).join('');
             return new $mol_regexp(`[^${regexp}]`);
         }
     }
-    $mol_regexp.byte = $mol_regexp.from(/[\s\S]/);
-    $mol_regexp.digit = $mol_regexp.from(/\d/);
-    $mol_regexp.letter = $mol_regexp.from(/\w/);
-    $mol_regexp.space = $mol_regexp.from(/\s/);
-    $mol_regexp.tab = $mol_regexp.from(/\t/);
-    $mol_regexp.slash_back = $mol_regexp.from(/\\/);
-    $mol_regexp.word_break = $mol_regexp.from(/\b/);
-    $mol_regexp.line_end = $mol_regexp.from(/\r?\n/);
-    $mol_regexp.begin = $mol_regexp.from(/^/);
-    $mol_regexp.end = $mol_regexp.from(/$/);
-    $mol_regexp.or = $mol_regexp.from(/|/);
+    $mol_regexp.decimal_only = $mol_regexp.from(/\d/gsu);
+    $mol_regexp.decimal_except = $mol_regexp.from(/\D/gsu);
+    $mol_regexp.latin_only = $mol_regexp.from(/\w/gsu);
+    $mol_regexp.latin_except = $mol_regexp.from(/\W/gsu);
+    $mol_regexp.space_only = $mol_regexp.from(/\s/gsu);
+    $mol_regexp.space_except = $mol_regexp.from(/\S/gsu);
+    $mol_regexp.word_break_only = $mol_regexp.from(/\b/gsu);
+    $mol_regexp.word_break_except = $mol_regexp.from(/\B/gsu);
+    $mol_regexp.tab = $mol_regexp.from(/\t/gsu);
+    $mol_regexp.slash_back = $mol_regexp.from(/\\/gsu);
+    $mol_regexp.nul = $mol_regexp.from(/\0/gsu);
+    $mol_regexp.char_any = $mol_regexp.from(/./gsu);
+    $mol_regexp.begin = $mol_regexp.from(/^/gsu);
+    $mol_regexp.end = $mol_regexp.from(/$/gsu);
+    $mol_regexp.or = $mol_regexp.from(/|/gsu);
+    $mol_regexp.line_end = $mol_regexp.from({
+        win_end: [['\r'], '\n'],
+        mac_end: '\r',
+    });
     $.$mol_regexp = $mol_regexp;
 })($ || ($ = {}));
 //regexp.js.map
@@ -6114,7 +6457,10 @@ var $;
 (function ($) {
     class $mol_float extends $.$mol_view {
         style() {
-            return Object.assign(Object.assign({}, super.style()), { minHeight: "auto" });
+            return {
+                ...super.style(),
+                minHeight: "auto"
+            };
         }
     }
     $.$mol_float = $mol_float;
@@ -6249,7 +6595,11 @@ var $;
                 background: {
                     color: $.$mol_theme.back,
                 },
+                border: {
+                    radius: $.$mol_gap.round,
+                },
                 boxShadow: `0 0.5rem 0.5rem -0.5rem hsla(0,0%,0%,.25)`,
+                zIndex: 2,
             },
             Title: {
                 minHeight: rem(2),
@@ -6264,7 +6614,7 @@ var $;
                 flex: {
                     grow: 1000,
                     shrink: 1,
-                    basis: per(50),
+                    basis: 'auto',
                 },
             },
             Tools: {
@@ -6285,6 +6635,7 @@ var $;
                     basis: per(100),
                 },
                 margin: 0,
+                padding: $.$mol_gap.block,
             },
             Foot: {
                 display: 'flex',
@@ -6294,6 +6645,9 @@ var $;
                 overflow: 'hidden',
                 background: {
                     color: $.$mol_theme.back,
+                },
+                border: {
+                    radius: $.$mol_gap.round,
                 },
                 boxShadow: `0 -0.5rem 0.5rem -0.5rem hsla(0,0%,0%,.25)`,
                 zIndex: 1,
@@ -6374,7 +6728,7 @@ var $;
 "use strict";
 var $;
 (function ($) {
-    $.$mol_style_attach("mol/labeler/labeler.view.css", "[mol_labeler] {\n\tdisplay: flex;\n\tflex-direction: column;\n\talign-items: stretch;\n\tcursor: inherit;\n}\n\n[mol_labeler_label] {\n\tcolor: var(--mol_theme_shade);\n}\n\n[mol_labeler_content] {\n\tdisplay: flex;\n}\n");
+    $.$mol_style_attach("mol/labeler/labeler.view.css", "[mol_labeler] {\n\tdisplay: flex;\n\tflex-direction: column;\n\talign-items: stretch;\n\tcursor: inherit;\n}\n\n[mol_labeler_label] {\n\tcolor: var(--mol_theme_shade);\n\tpadding: 0 .75rem;\n}\n\n[mol_labeler_content] {\n\tdisplay: flex;\n}\n");
 })($ || ($ = {}));
 //labeler.view.css.js.map
 ;
@@ -6390,7 +6744,7 @@ var $;
 "use strict";
 var $;
 (function ($) {
-    $.$mol_style_attach("mol/row/row.view.css", "[mol_row] {\n\tdisplay: flex;\n\tflex-wrap: wrap;\n\talign-items: flex-start;\n\talign-content: flex-start;\n\tjustify-content: flex-start;\n\tpadding: .5rem;\n\tflex: 1 0 auto;\n\tbox-sizing: border-box;\n\tmax-width: 100%;\n}\n\n[mol_row] > * {\n\tmargin: .5rem;\n\tmax-width: 100%;\n}\n");
+    $.$mol_style_attach("mol/row/row.view.css", "[mol_row] {\n\tdisplay: flex;\n\tflex-wrap: wrap;\n\talign-items: flex-start;\n\talign-content: flex-start;\n\tjustify-content: flex-start;\n\tpadding: .5rem;\n\tflex: 0 0 auto;\n\tbox-sizing: border-box;\n\tmax-width: 100%;\n}\n\n[mol_row] > * {\n\tmargin: .25rem;\n\tmax-width: 100%;\n}\n");
 })($ || ($ = {}));
 //row.view.css.js.map
 ;
@@ -6402,7 +6756,11 @@ var $;
             return "img";
         }
         field() {
-            return Object.assign(Object.assign({}, super.field()), { src: this.uri(), alt: this.title() });
+            return {
+                ...super.field(),
+                src: this.uri(),
+                alt: this.title()
+            };
         }
         uri() {
             return "";
@@ -6415,7 +6773,7 @@ var $;
 "use strict";
 var $;
 (function ($) {
-    $.$mol_style_attach("mol/image/image.view.css", "[mol_image] {\n\tborder-radius: var(--mol_skin_round);\n\toverflow: hidden;\n\tflex: 0 1 auto;\n\tmax-width: 100%;\n}\n");
+    $.$mol_style_attach("mol/image/image.view.css", "[mol_image] {\n\tborder-radius: var(--mol_gap_round);\n\toverflow: hidden;\n\tflex: 0 1 auto;\n\tmax-width: 100%;\n\tobject-fit: cover;\n}\n");
 })($ || ($ = {}));
 //image.view.css.js.map
 ;
@@ -6861,9 +7219,9 @@ var $;
     function $mol_dom_parse(text, type = 'application/xhtml+xml') {
         const parser = new $.$mol_dom_context.DOMParser();
         const doc = parser.parseFromString(text, type);
-        const error = doc.getElementsByTagName('parsererror')[0];
-        if (error)
-            throw new Error(error.textContent);
+        const error = doc.getElementsByTagName('parsererror');
+        if (error.length)
+            throw new Error(error[0].textContent);
         return doc;
     }
     $.$mol_dom_parse = $mol_dom_parse;
@@ -7069,17 +7427,15 @@ var $;
                 return `${row['brand']} ${row['model']}`;
             }
             filter(next, force) {
-                var _a;
                 if (next === undefined)
                     return $.$mol_state_arg.value('filter') || '';
-                return (_a = $.$mol_state_arg.value('filter', next)) !== null && _a !== void 0 ? _a : '';
+                return $.$mol_state_arg.value('filter', next) ?? '';
             }
             lamp_arg(id) {
                 return { 'lamp': id };
             }
             id(next) {
-                var _a;
-                return (_a = $.$mol_state_arg.value('lamp', next)) !== null && _a !== void 0 ? _a : '';
+                return $.$mol_state_arg.value('lamp', next) ?? '';
             }
             lamp() {
                 return this.lamps_dict()[this.id()] || null;
@@ -7274,414 +7630,6 @@ var $;
 ;
 "use strict";
 var $;
-(function ($) {
-    class $mol_view_tree_test_attributes_super extends $.$mol_view {
-        some() {
-            return {
-                a: 0,
-                b: 2
-            };
-        }
-    }
-    $.$mol_view_tree_test_attributes_super = $mol_view_tree_test_attributes_super;
-    class $mol_view_tree_test_attributes extends $mol_view_tree_test_attributes_super {
-        some() {
-            return Object.assign(Object.assign({}, super.some()), { a: 1 });
-        }
-    }
-    $.$mol_view_tree_test_attributes = $mol_view_tree_test_attributes;
-})($ || ($ = {}));
-//attributes.view.tree.js.map
-;
-"use strict";
-var $;
-(function ($) {
-    class $mol_view_tree_test_binding extends $.$mol_view {
-        value(val) {
-            return this.task_title_new(val);
-        }
-        enabled() {
-            return this.head_complete_enabled();
-        }
-        task_title_new(val) {
-            if (val !== undefined)
-                return val;
-            return "123";
-        }
-        head_complete_enabled() {
-            return false;
-        }
-    }
-    __decorate([
-        $.$mol_mem
-    ], $mol_view_tree_test_binding.prototype, "task_title_new", null);
-    $.$mol_view_tree_test_binding = $mol_view_tree_test_binding;
-})($ || ($ = {}));
-//binding.view.tree.js.map
-;
-"use strict";
-var $;
-(function ($) {
-    class $mol_view_tree_test_binding_right extends $.$mol_view {
-        outer_width(v) {
-            return this.Test().width(v);
-        }
-        Test() {
-            const obj = new this.$.$mol_view_tree_test_binding_right_test();
-            return obj;
-        }
-    }
-    __decorate([
-        $.$mol_mem
-    ], $mol_view_tree_test_binding_right.prototype, "Test", null);
-    $.$mol_view_tree_test_binding_right = $mol_view_tree_test_binding_right;
-    class $mol_view_tree_test_binding_right_test extends $.$mol_view {
-        width(val) {
-            if (val !== undefined)
-                return val;
-            return 0;
-        }
-    }
-    __decorate([
-        $.$mol_mem
-    ], $mol_view_tree_test_binding_right_test.prototype, "width", null);
-    $.$mol_view_tree_test_binding_right_test = $mol_view_tree_test_binding_right_test;
-})($ || ($ = {}));
-//binding_right.view.tree.js.map
-;
-"use strict";
-var $;
-(function ($) {
-    class $mol_view_tree_test_simple extends $.$mol_view {
-        some() {
-            return 1;
-        }
-        bool() {
-            return true;
-        }
-        str() {
-            return "test";
-        }
-        arr() {
-            return [];
-        }
-        arr_string() {
-            return [];
-        }
-    }
-    $.$mol_view_tree_test_simple = $mol_view_tree_test_simple;
-})($ || ($ = {}));
-//simple.view.tree.js.map
-;
-"use strict";
-var $;
-(function ($) {
-    class $mol_view_tree_test_attributes_subcomponent extends $.$mol_view {
-        Page(index) {
-            const obj = new this.$.$mol_view_tree_test_attributes_subcomponent_page();
-            obj.Sub = () => this.page(index);
-            return obj;
-        }
-        page(index) {
-            return null;
-        }
-    }
-    __decorate([
-        $.$mol_mem_key
-    ], $mol_view_tree_test_attributes_subcomponent.prototype, "Page", null);
-    $.$mol_view_tree_test_attributes_subcomponent = $mol_view_tree_test_attributes_subcomponent;
-    class $mol_view_tree_test_attributes_subcomponent_page extends $.$mol_view {
-        Sub() {
-            return null;
-        }
-    }
-    $.$mol_view_tree_test_attributes_subcomponent_page = $mol_view_tree_test_attributes_subcomponent_page;
-})($ || ($ = {}));
-//subcomponent.view.tree.js.map
-;
-"use strict";
-var $;
-(function ($) {
-    function $mol_view_tree_trim_remarks(def) {
-        return def.transform(([node], sub) => (node.type === '-') ? null : node.clone({ sub: sub() }));
-    }
-    $.$mol_view_tree_trim_remarks = $mol_view_tree_trim_remarks;
-    function $mol_view_tree_classes(defs) {
-        return $mol_view_tree_trim_remarks(defs);
-    }
-    $.$mol_view_tree_classes = $mol_view_tree_classes;
-    function $mol_view_tree_class_name(val) {
-        return val.type;
-    }
-    $.$mol_view_tree_class_name = $mol_view_tree_class_name;
-    function $mol_view_tree_super_name(val) {
-        if (val.sub.length != 1)
-            throw val.error('Wrong sub count');
-        return val.sub[0].type;
-    }
-    $.$mol_view_tree_super_name = $mol_view_tree_super_name;
-    function $mol_view_tree_class_props(def) {
-        const props = {};
-        const catch_prop = (prop, type = '') => {
-            let def = prop;
-            if (type === '=>') {
-                if (prop.sub[0])
-                    throw prop.error('Right binding can not have default value');
-            }
-            else {
-                if (prop.sub.length === 0)
-                    return;
-                if (prop.sub[0].type === '-')
-                    return;
-                props[prop.type] = props[prop.type];
-                def = prop.clone({
-                    sub: [prop.sub[0].transform(([node, ...stack], sub) => {
-                            if (['<=', '<=>', '=>'].indexOf(node.type) === -1)
-                                return node.clone({ sub: sub() });
-                            catch_prop(node.sub[0], node.type);
-                            return node.clone({
-                                sub: [node.sub[0].clone({
-                                        sub: []
-                                    })]
-                            });
-                        })]
-                });
-            }
-            if (props[prop.type]) {
-                if (props[prop.type].toString() !== def.toString()) {
-                    throw def.error('Property already defined with another default value' + props[prop.type].error('').message + '\n---');
-                }
-            }
-            else {
-                props[prop.type] = def;
-            }
-        };
-        def.sub[0].sub.map(sub => catch_prop(sub));
-        return def.clone({
-            type: '',
-            sub: Object.keys(props).map(name => props[name]),
-        });
-    }
-    $.$mol_view_tree_class_props = $mol_view_tree_class_props;
-    function $mol_view_tree_prop_name(prop) {
-        return (prop.type.match(/^\w+/) || [])[0] || '';
-    }
-    $.$mol_view_tree_prop_name = $mol_view_tree_prop_name;
-    function $mol_view_tree_prop_key(prop) {
-        return (prop.type.match(/!(\w+)$/) || [])[1] || '';
-    }
-    $.$mol_view_tree_prop_key = $mol_view_tree_prop_key;
-    function $mol_view_tree_prop_next(prop) {
-        return (prop.type.match(/\?(\w+)$/) || [])[1] || '';
-    }
-    $.$mol_view_tree_prop_next = $mol_view_tree_prop_next;
-    function $mol_view_tree_prop_value(prop) {
-        if (prop.sub.length != 1)
-            throw prop.error(`Wrong sub count (${prop.sub.length})`);
-        return prop.sub[0];
-    }
-    $.$mol_view_tree_prop_value = $mol_view_tree_prop_value;
-    function $mol_view_tree_value_type(val) {
-        switch (val.type) {
-            case 'true': return 'bool';
-            case 'false': return 'bool';
-            case 'null': return 'null';
-            case '*': return 'dict';
-            case '@': return 'locale';
-            case '': return 'string';
-            case '<=': return 'get';
-            case '<=>': return 'bind';
-            case '=>': return 'put';
-        }
-        switch (val.type[0]) {
-            case '/': return 'list';
-            case '$': return 'object';
-        }
-        if (Number(val.type).toString() == val.type)
-            return 'number';
-        throw val.error('Wrong value');
-    }
-    $.$mol_view_tree_value_type = $mol_view_tree_value_type;
-    function $mol_view_tree_compile(tree) {
-        const splittedUri = tree.uri.split(/[#\\\/]/);
-        splittedUri.pop();
-        const fileName = splittedUri.pop();
-        const SourceNode = (row, col, fileName, text) => text;
-        var content = [];
-        var locales = {};
-        for (let def of $mol_view_tree_classes(tree).sub) {
-            if (!/^\$\w+$/.test(def.type))
-                throw def.error('Wrong component name');
-            var parent = def.sub[0];
-            var members = {};
-            for (let param of $mol_view_tree_class_props(def).sub) {
-                try {
-                    var needSet = false;
-                    var needCache = false;
-                    if (param.type === '<=>') {
-                        param = param.sub[0];
-                    }
-                    if (param.type === '<=') {
-                        param = param.sub[0];
-                    }
-                    var propName = /(.*?)(?:\!(\w+))?(?:\?(\w+))?$/.exec(param.type);
-                    if (propName[3]) {
-                        needSet = true;
-                        needCache = true;
-                    }
-                    const getValue = (value, definition) => {
-                        try {
-                            switch (true) {
-                                case (value.type === ''):
-                                    return [JSON.stringify(value.value)];
-                                case (value.type === '@'):
-                                    const key = `${def.type}_${param.type.replace(/[?!].*/, '')}`;
-                                    locales[key] = value.value;
-                                    return [`this.$.$mol_locale.text( ${JSON.stringify(key)} )`];
-                                case (value.type === '-'):
-                                    return null;
-                                case (value.type[0] === '/'):
-                                    const item_type = value.type.substring(1);
-                                    var items = [];
-                                    value.sub.forEach(item => {
-                                        if (item.type === '-')
-                                            return;
-                                        if (item.type === '^') {
-                                            items.push(`...super.${param.type}()`);
-                                            return;
-                                        }
-                                        var val = getValue(item);
-                                        if (val)
-                                            items.push(val.join(""));
-                                    });
-                                    return [`[`, items.join(' , '), `]`, (item_type ? ` as readonly ( ${item_type} )[]` : ` as readonly any[]`)];
-                                case (value.type[0] === '$'):
-                                    if (!definition)
-                                        throw value.error('Objects should be bound');
-                                    needCache = true;
-                                    var overs = [];
-                                    value.sub.forEach(over => {
-                                        if (/^[-\/]?$/.test(over.type))
-                                            return '';
-                                        var overName = /(.*?)(?:\!(\w+))?(?:\?(\w+))?$/.exec(over.type);
-                                        var ns = needSet;
-                                        if (over.sub[0].type === '=>') {
-                                            if (over.sub[0].sub.length === 1) {
-                                                const [, own_name, own_key, own_next] = /(.*?)(?:\!(\w+))?(?:\?(\w+))?$/.exec(over.sub[0].sub[0].type);
-                                                let own_args = [];
-                                                if (own_key)
-                                                    own_args.push(` ${own_key} : any `);
-                                                if (own_next)
-                                                    own_args.push(` ${own_next}? : any `);
-                                                let [, their_name, ...their_args] = /(.*?)(?:\!(\w+))?(?:\?(\w+))?$/.exec(over.type);
-                                                their_args = their_args.filter(Boolean);
-                                                members[own_name] = [`\t${own_name}(${own_args.join(',')}) {\n\t\treturn this.${propName[1]}(${propName[2] || ''}).${their_name}( ${their_args.join(' , ')} )\n\t}\n\n`];
-                                                return;
-                                            }
-                                        }
-                                        var v = getValue(over.sub[0]);
-                                        let args = [];
-                                        if (overName[2])
-                                            args.push(` ${overName[2]} : any `);
-                                        if (overName[3])
-                                            args.push(` ${overName[3]}? : any `);
-                                        overs.push(...['\t\t\tobj.', SourceNode(over.row, over.col, fileName, overName[1]), ' = (', args.join(','), ') => ', ...(v || []), '\n']);
-                                        needSet = ns;
-                                    });
-                                    const object_args = value.select('/', '').sub.map(arg => getValue(arg)).join(' , ');
-                                    return ['(( obj )=>{\n', ...overs, '\t\t\treturn obj\n\t\t})( new this.$.', SourceNode(value.row, value.col, fileName, value.type), '( ', object_args, ' ) )'];
-                                case (value.type === '*'):
-                                    var opts = [];
-                                    value.sub.forEach(opt => {
-                                        if (opt.type === '-')
-                                            return '';
-                                        if (opt.type === '^') {
-                                            opts.push(`\t\t\t...super.${param.type}() ,\n`);
-                                            return;
-                                        }
-                                        var key = /(.*?)(?:\?(\w+))?$/.exec(opt.type);
-                                        var ns = needSet;
-                                        var v = getValue(opt.sub[0]);
-                                        var arg = key[2] ? ` ( ${key[2]}? : any )=> ` : '';
-                                        opts.push(...['\t\t\t"', SourceNode(opt.row, opt.col, fileName, key[1] + '" : '), arg, ' ', ...(v || []), ' ,\n']);
-                                        needSet = ns;
-                                    });
-                                    return ['({\n', opts.join(''), '\t\t})'];
-                                case (value.type === '<=>'):
-                                    if (value.sub.length === 1) {
-                                        var type = /(.*?)(?:\!(\w+))?(?:\?(\w+))$/.exec(value.sub[0].type);
-                                        return ['this.' + type[1] + '(' + (type[2] ? type[2] + ' ,' : '') + ' ' + type[3] + ' )'];
-                                    }
-                                    break;
-                                case (value.type === '<='):
-                                    if (value.sub.length === 1) {
-                                        var type = /(.*?)(?:\!(\w+))?(?:\?(\w+))?$/.exec(value.sub[0].type);
-                                        return ['this.' + type[1] + '(' + (type[2] ? type[2] : '') + ')'];
-                                    }
-                                    break;
-                            }
-                            switch (value.type) {
-                                case 'true':
-                                case 'false':
-                                    return [value.type];
-                                case 'null':
-                                    return ['null as any'];
-                            }
-                            if (Number(value.type).toString() == value.type)
-                                return [value.type];
-                            throw value.error('Wrong value');
-                        }
-                        catch (err) {
-                            throw err;
-                        }
-                    };
-                    if (param.sub.length > 1)
-                        throw new Error('Too more sub');
-                    param.sub.forEach(child => {
-                        var val = getValue(child, true);
-                        if (!val)
-                            return;
-                        var args = [];
-                        if (propName[2])
-                            args.push(` ${propName[2]} : any `);
-                        if (propName[3])
-                            args.push(` ${propName[3]}? : any , force? : $${''}mol_mem_force `);
-                        if (needSet)
-                            val = [
-                                `( ${propName[3]} !== void 0 ) ? ${propName[3]} : `,
-                                ...val
-                            ];
-                        val = ['return ', ...val];
-                        var decl = ['\t', SourceNode(param.row, param.col, fileName, propName[1]), '(', args.join(','), ') {\n\t\t', ...val, '\n\t}\n\n'];
-                        if (needCache) {
-                            if (propName[2])
-                                decl = ['\t@ $', 'mol_mem_key\n', ...decl];
-                            else
-                                decl = ['\t@ $', 'mol_mem\n', ...decl];
-                        }
-                        decl = ['\t/**\n\t *  ```\n', param.toString().trim().replace(/^/mg, '\t *  '), '\n\t *  ```\n\t **/\n', ...decl];
-                        members[propName[1]] = decl;
-                    });
-                }
-                catch (err) {
-                    throw err;
-                }
-            }
-            var body = Object.keys(members).reduce(function (acc, name) {
-                const items = members[name] ? members[name] : ['\t', name, '() { return null as any }\n\t}\n'];
-                return [...acc, ...items];
-            }, []);
-            var classes = ['namespace $ { export class ', SourceNode(def.row, def.col, fileName, def.type), ' extends ', SourceNode(parent.row, parent.col, fileName, parent.type), ' {\n\n', ...body, '} }\n'];
-            content = [...content, ...classes];
-        }
-        return { script: content.join(''), locales };
-    }
-    $.$mol_view_tree_compile = $mol_view_tree_compile;
-})($ || ($ = {}));
-//tree.js.map
-;
-"use strict";
-var $;
 (function ($_1) {
     function $mol_test(set) {
         for (let name in set) {
@@ -7785,7 +7733,7 @@ var $;
             $.$mol_assert_equal(dom.value, '123');
         },
         'Define classes'() {
-            const dom = $.$mol_jsx("div", { classList: ['foo bar'] });
+            const dom = $.$mol_jsx("div", { class: 'foo bar' });
             $.$mol_assert_equal(dom.outerHTML, '<div class="foo bar"></div>');
         },
         'Define styles'() {
@@ -7860,7 +7808,7 @@ var $;
         const guid = $.$mol_jsx_prefix + id;
         let node = guid && $.$mol_jsx_document.getElementById(guid);
         if (typeof Elem !== 'string') {
-            if (Elem.prototype) {
+            if ('prototype' in Elem) {
                 const view = node && node[Elem] || new Elem;
                 Object.assign(view, props);
                 view[Symbol.toStringTag] = guid;
@@ -7892,7 +7840,9 @@ var $;
             if (typeof props[key] === 'string') {
                 node.setAttribute(key, props[key]);
             }
-            else if (props[key] && props[key]['constructor'] === Object) {
+            else if (props[key] &&
+                typeof props[key] === 'object' &&
+                Reflect.getPrototypeOf(props[key]) === Reflect.getPrototypeOf({})) {
                 if (typeof node[key] === 'object') {
                     Object.assign(node[key], props[key]);
                     continue;
@@ -8044,7 +7994,7 @@ var $;
         if (a_type !== b_type)
             return false;
         if (a_type === 'function')
-            return String(a) === String(b);
+            return a['toString']() === b['toString']();
         if (a_type !== 'object')
             return false;
         if (!a || !b)
@@ -8054,7 +8004,7 @@ var $;
         if (a['constructor'] !== b['constructor'])
             return false;
         if (a instanceof RegExp)
-            return Object.is(String(a), String(b));
+            return a.toString() === b['toString']();
         const ref = a_stack.indexOf(a);
         if (ref >= 0) {
             return Object.is(b_stack[ref], b);
@@ -8075,7 +8025,7 @@ var $;
         b_stack.push(b);
         let result;
         try {
-            if (a[Symbol.iterator]) {
+            if (Symbol.iterator in a) {
                 const a_iter = a[Symbol.iterator]();
                 const b_iter = b[Symbol.iterator]();
                 while (true) {
@@ -8106,12 +8056,10 @@ var $;
                 if (count < 0)
                     return result = false;
             }
-            const a_val = a['valueOf']();
-            if (Object.is(a_val, a))
-                return result = true;
-            const b_val = b['valueOf']();
-            if (!Object.is(a_val, b_val))
-                return result = false;
+            if (a instanceof Number || a instanceof String || a instanceof Symbol || a instanceof Boolean || a instanceof Date) {
+                if (!Object.is(a['valueOf'](), b['valueOf']()))
+                    return result = false;
+            }
             return result = true;
         }
         finally {
@@ -8235,7 +8183,13 @@ var $;
                         return val;
                     if ('outerHTML' in val)
                         return val.outerHTML;
-                    return JSON.stringify(val);
+                    try {
+                        return JSON.stringify(val);
+                    }
+                    catch (error) {
+                        console.error(error);
+                        return val;
+                    }
                 };
                 return $.$mol_fail(new Error(`Not like (1:${+index + 2})\n${print(head)}\n---\n${print(value)}`));
             }
@@ -8301,8 +8255,8 @@ var $;
             class Foo {
             }
             const proxy = $.$mol_delegate({}, () => new Foo);
-            $.$mol_assert_ok(proxy.valueOf() instanceof Foo);
-            $.$mol_assert_not(proxy.valueOf() instanceof $.$mol_delegate);
+            $.$mol_assert_ok(proxy instanceof Foo);
+            $.$mol_assert_ok(proxy instanceof $.$mol_delegate);
         },
     });
 })($ || ($ = {}));
@@ -9941,6 +9895,12 @@ var $;
 //maybe.test.js.map
 ;
 "use strict";
+//equals.test.js.map
+;
+"use strict";
+//merge.test.js.map
+;
+"use strict";
 //intersect.test.js.map
 ;
 "use strict";
@@ -9952,85 +9912,101 @@ var $;
             $.$mol_assert_equal(specials.source, '\\.\\*\\+\\?\\^\\$\\{\\}\\(\\)\\|\\[\\]\\\\');
         },
         'char code'() {
-            const space = $.$mol_regexp.char_code(32);
-            $.$mol_assert_equal(space.exec(' ')[0], ' ');
+            const space = $.$mol_regexp.from(32);
+            $.$mol_assert_like(' '.match(space), [' ']);
         },
         'repeat fixed'() {
-            const { repeat, digit } = $.$mol_regexp;
+            const { repeat, decimal_only: digit } = $.$mol_regexp;
             const year = repeat(digit, 4, 4);
-            $.$mol_assert_equal(year.exec('#2020#')[0], '2020');
+            $.$mol_assert_like('#2020#'.match(year), ['2020']);
         },
         'greedy repeat'() {
-            const { repeat, repeat_greedy, letter } = $.$mol_regexp;
-            $.$mol_assert_equal(repeat(letter).exec('abc')[0], '');
-            $.$mol_assert_equal(repeat_greedy(letter).exec('abc')[0], 'abc');
+            const { repeat, repeat_greedy, latin_only: letter } = $.$mol_regexp;
+            $.$mol_assert_like('abc'.match(repeat(letter, 1, 2)), ['a', 'b', 'c']);
+            $.$mol_assert_like('abc'.match(repeat_greedy(letter, 1, 2)), ['ab', 'c']);
         },
         'repeat range'() {
-            const { repeat_greedy, digit } = $.$mol_regexp;
+            const { repeat_greedy, decimal_only: digit } = $.$mol_regexp;
             const year = repeat_greedy(digit, 2, 4);
-            $.$mol_assert_equal(year.exec('#2#'), null);
-            $.$mol_assert_equal(year.exec('#20#')[0], '20');
-            $.$mol_assert_equal(year.exec('#2020#')[0], '2020');
-            $.$mol_assert_equal(year.exec('#20201#')[0], '2020');
+            $.$mol_assert_like('#2#'.match(year), null);
+            $.$mol_assert_like('#20#'.match(year), ['20']);
+            $.$mol_assert_like('#2020#'.match(year), ['2020']);
+            $.$mol_assert_like('#20201#'.match(year), ['2020']);
         },
         'repeat from'() {
-            const { repeat_greedy, letter } = $.$mol_regexp;
+            const { repeat_greedy, latin_only: letter } = $.$mol_regexp;
             const name = repeat_greedy(letter, 2);
-            $.$mol_assert_equal(name.exec('##'), null);
-            $.$mol_assert_equal(name.exec('#a#'), null);
-            $.$mol_assert_equal(name.exec('#ab#')[0], 'ab');
-            $.$mol_assert_equal(name.exec('#abc#')[0], 'abc');
-        },
-        'optional'() {
-            const { optional, letter } = $.$mol_regexp;
-            const name = optional(letter);
-            $.$mol_assert_equal(name.exec('')[0], '');
-            $.$mol_assert_equal(name.exec('a')[0], 'a');
-            $.$mol_assert_equal(name.exec('ab')[0], 'a');
+            $.$mol_assert_like('##'.match(name), null);
+            $.$mol_assert_like('#a#'.match(name), null);
+            $.$mol_assert_like('#ab#'.match(name), ['ab']);
+            $.$mol_assert_like('#abc#'.match(name), ['abc']);
         },
         'from string'() {
             const regexp = $.$mol_regexp.from('[\\d]');
             $.$mol_assert_equal(regexp.source, '\\[\\\\d\\]');
-            $.$mol_assert_equal(regexp.flags, 'gu');
+            $.$mol_assert_equal(regexp.flags, 'gsu');
         },
         'from regexp'() {
             const regexp = $.$mol_regexp.from(/[\d]/i);
             $.$mol_assert_equal(regexp.source, '[\\d]');
             $.$mol_assert_equal(regexp.flags, 'i');
         },
+        'split'() {
+            const regexp = $.$mol_regexp.from(';');
+            $.$mol_assert_like('aaa;bbb;ccc'.split(regexp), ['aaa', ';', 'bbb', ';', 'ccc']);
+            $.$mol_assert_like('aaa;;ccc'.split(regexp), ['aaa', ';', '', ';', 'ccc']);
+            $.$mol_assert_like('aaa'.split(regexp), ['aaa']);
+            $.$mol_assert_like(''.split(regexp), ['']);
+        },
+        'test for matching'() {
+            const regexp = $.$mol_regexp.from('foo');
+            $.$mol_assert_like(regexp.test(''), false);
+            $.$mol_assert_like(regexp.test('fo'), false);
+            $.$mol_assert_like(regexp.test('foo'), true);
+            $.$mol_assert_like(regexp.test('foobar'), true);
+            $.$mol_assert_like(regexp.test('barfoo'), true);
+        },
         'case ignoring'() {
             const xxx = $.$mol_regexp.from('x', { ignoreCase: true });
-            $.$mol_assert_like(xxx.flags, 'giu');
+            $.$mol_assert_like(xxx.flags, 'gisu');
             $.$mol_assert_like(xxx.exec('xx')[0], 'x');
             $.$mol_assert_like(xxx.exec('XX')[0], 'X');
         },
         'multiline mode'() {
-            const { end } = $.$mol_regexp;
-            const xxx = $.$mol_regexp.from(['x', end], { multiline: true });
+            const { end, from } = $.$mol_regexp;
+            const xxx = from(['x', end], { multiline: true });
             $.$mol_assert_like(xxx.exec('x\ny')[0], 'x');
-            $.$mol_assert_like(xxx.flags, 'gmu');
+            $.$mol_assert_like(xxx.flags, 'gmsu');
+        },
+        'flags override'() {
+            const triplet = $.$mol_regexp.from($.$mol_regexp.from(/.../, { ignoreCase: true }), { multiline: true });
+            $.$mol_assert_like(triplet.toString(), '/.../gmsu');
         },
         'sequence'() {
-            const { begin, end, digit, repeat } = $.$mol_regexp;
+            const { begin, end, decimal_only: digit, repeat, from } = $.$mol_regexp;
             const year = repeat(digit, 4, 4);
             const dash = '-';
             const month = repeat(digit, 2, 2);
             const day = repeat(digit, 2, 2);
-            const date = $.$mol_regexp.from([begin, year, dash, month, dash, day, end], { ignoreCase: true });
+            const date = from([begin, year, dash, month, dash, day, end]);
             $.$mol_assert_like(date.exec('2020-01-02')[0], '2020-01-02');
-            $.$mol_assert_like(date.ignoreCase, true);
+        },
+        'optional'() {
+            const name = $.$mol_regexp.from(['A', ['4']]);
+            $.$mol_assert_equal('AB'.match(name)[0], 'A');
+            $.$mol_assert_equal('A4'.match(name)[0], 'A4');
         },
         'only groups'() {
             const regexp = $.$mol_regexp.from({ dog: '@' });
-            $.$mol_assert_like([...regexp.parse('#')], [{ 0: '#' }]);
-            $.$mol_assert_like([...regexp.parse('@')], [{ dog: '@' }]);
+            $.$mol_assert_like([...'#'.matchAll(regexp)][0].groups, undefined);
+            $.$mol_assert_like([...'@'.matchAll(regexp)][0].groups, { dog: '@' });
         },
         'catch skipped'() {
             const regexp = $.$mol_regexp.from(/(@)(\d?)/g);
-            $.$mol_assert_like([...regexp.parse('[[@]]')], [
-                { 0: '[[' },
-                { 1: '@', 2: '' },
-                { 0: ']]' },
+            $.$mol_assert_like([...'[[@]]'.matchAll(regexp)].map(f => [...f]), [
+                ['[['],
+                ['@', '@', ''],
+                [']]'],
             ]);
         },
         'enum variants'() {
@@ -10040,9 +10016,10 @@ var $;
                 Sex["female"] = "female";
             })(Sex || (Sex = {}));
             const sexism = $.$mol_regexp.from(Sex);
-            $.$mol_assert_like([...sexism.parse('')], []);
-            $.$mol_assert_like([...sexism.parse('male')], [{ male: 'male', female: '' }]);
-            $.$mol_assert_like([...sexism.parse('female')], [{ male: '', female: 'female' }]);
+            $.$mol_assert_like([...''.matchAll(sexism)].length, 0);
+            $.$mol_assert_like([...'trans'.matchAll(sexism)][0].groups, undefined);
+            $.$mol_assert_like([...'male'.matchAll(sexism)][0].groups, { male: 'male', female: '' });
+            $.$mol_assert_like([...'female'.matchAll(sexism)][0].groups, { male: '', female: 'female' });
         },
         'recursive only groups'() {
             let Sex;
@@ -10051,85 +10028,155 @@ var $;
                 Sex["female"] = "female";
             })(Sex || (Sex = {}));
             const sexism = $.$mol_regexp.from({ Sex });
-            $.$mol_assert_like([...sexism.parse('')], []);
-            $.$mol_assert_like([...sexism.parse('male')], [{ Sex: 'male', male: 'male', female: '' }]);
-            $.$mol_assert_like([...sexism.parse('female')], [{ Sex: 'female', male: '', female: 'female' }]);
+            $.$mol_assert_like([...''.matchAll(sexism)].length, 0);
+            $.$mol_assert_like([...'male'.matchAll(sexism)][0].groups, { Sex: 'male', male: 'male', female: '' });
+            $.$mol_assert_like([...'female'.matchAll(sexism)][0].groups, { Sex: 'female', male: '', female: 'female' });
         },
         'sequence with groups'() {
-            const { begin, end, digit, repeat } = $.$mol_regexp;
+            const { begin, end, decimal_only: digit, repeat, from } = $.$mol_regexp;
             const year = repeat(digit, 4, 4);
             const dash = '-';
             const month = repeat(digit, 2, 2);
             const day = repeat(digit, 2, 2);
-            const regexp = $.$mol_regexp.from([begin, { year }, dash, { month }, dash, { day }, end]);
-            const found = [...regexp.parse('2020-01-02')];
-            $.$mol_assert_like(found, [{
-                    year: '2020',
-                    month: '01',
-                    day: '02',
-                }]);
+            const regexp = from([begin, { year }, dash, { month }, dash, { day }, end]);
+            const found = [...'2020-01-02'.matchAll(regexp)];
+            $.$mol_assert_like(found[0].groups, {
+                year: '2020',
+                month: '01',
+                day: '02',
+            });
         },
         'sequence with groups of mixed type'() {
             const prefix = '/';
             const postfix = '/';
             const regexp = $.$mol_regexp.from([{ prefix }, /(\w+)/, { postfix }, /([gumi]*)/]);
-            const found = [...regexp.parse('/foo/mi')];
-            $.$mol_assert_like(found, [{
-                    prefix: '/',
-                    0: 'foo',
-                    postfix: '/',
-                    1: 'mi',
-                }]);
+            $.$mol_assert_like([...'/foo/mi'.matchAll(regexp)], [
+                Object.assign(["/foo/mi", "/", "foo", "/", "mi"], {
+                    groups: {
+                        prefix: '/',
+                        postfix: '/',
+                    },
+                    index: 0,
+                    input: "/",
+                }),
+            ]);
         },
         'recursive sequence with groups'() {
-            const { begin, end, digit, repeat } = $.$mol_regexp;
+            const { begin, end, decimal_only: digit, repeat, from } = $.$mol_regexp;
             const year = repeat(digit, 4, 4);
             const dash = '-';
             const month = repeat(digit, 2, 2);
             const day = repeat(digit, 2, 2);
-            const regexp = $.$mol_regexp.from([begin, { date: [{ year }, dash, { month }] }, dash, { day }, end]);
-            const found = [...regexp.parse('2020-01-02')];
-            $.$mol_assert_like(found, [{
-                    date: '2020-01',
-                    year: '2020',
-                    month: '01',
-                    day: '02',
-                }]);
+            const regexp = from([
+                begin, { date: [{ year }, dash, { month }] }, dash, { day }, end
+            ]);
+            const found = [...'2020-01-02'.matchAll(regexp)];
+            $.$mol_assert_like(found[0].groups, {
+                date: '2020-01',
+                year: '2020',
+                month: '01',
+                day: '02',
+            });
         },
         'parse multiple'() {
-            const { digit } = $.$mol_regexp;
-            const regexp = $.$mol_regexp.from({ digit });
-            $.$mol_assert_like([...regexp.parse('123')], [
+            const { decimal_only: digit, from } = $.$mol_regexp;
+            const regexp = from({ digit });
+            $.$mol_assert_like([...'123'.matchAll(regexp)].map(f => f.groups), [
                 { digit: '1' },
                 { digit: '2' },
                 { digit: '3' },
             ]);
         },
         'variants'() {
-            const { begin, or, end } = $.$mol_regexp;
-            const sexism = $.$mol_regexp.from([begin, 'sex = ', { sex: ['male', or, 'female'] }, end]);
-            $.$mol_assert_like([...sexism.parse('sex = male')], [{ sex: 'male' }]);
-            $.$mol_assert_like([...sexism.parse('sex = female')], [{ sex: 'female' }]);
-            $.$mol_assert_like([...sexism.parse('sex = malefemale')], [{ 0: 'sex = malefemale' }]);
+            const { begin, or, end, from } = $.$mol_regexp;
+            const sexism = from([
+                begin, 'sex = ', { sex: ['male', or, 'female'] }, end
+            ]);
+            $.$mol_assert_like([...'sex = male'.matchAll(sexism)][0].groups, { sex: 'male' });
+            $.$mol_assert_like([...'sex = female'.matchAll(sexism)][0].groups, { sex: 'female' });
+            $.$mol_assert_like([...'sex = malefemale'.matchAll(sexism)][0].groups, undefined);
         },
         'force after'() {
-            const { letter, force_after } = $.$mol_regexp;
-            const regexp = $.$mol_regexp.from([letter, force_after('.')]);
-            $.$mol_assert_equal(regexp.exec('x.')[0], 'x');
-            $.$mol_assert_equal(regexp.exec('x5'), null);
+            const { latin_only: letter, force_after, from } = $.$mol_regexp;
+            const regexp = from([letter, force_after('.')]);
+            $.$mol_assert_like('x.'.match(regexp), ['x']);
+            $.$mol_assert_like('x,'.match(regexp), null);
         },
         'forbid after'() {
-            const { letter, forbid_after } = $.$mol_regexp;
-            const regexp = $.$mol_regexp.from([letter, forbid_after('.')]);
-            $.$mol_assert_equal(regexp.exec('x.'), null);
-            $.$mol_assert_equal(regexp.exec('x5')[0], 'x');
+            const { latin_only: letter, forbid_after, from } = $.$mol_regexp;
+            const regexp = from([letter, forbid_after('.')]);
+            $.$mol_assert_like('x.'.match(regexp), null);
+            $.$mol_assert_like('x,'.match(regexp), ['x']);
         },
-        'byte except'() {
-            const { byte_except, letter, tab } = $.$mol_regexp;
-            const name = byte_except(letter, tab);
-            $.$mol_assert_equal(name.exec('a'), null);
-            $.$mol_assert_equal(name.exec('\t'), null);
-            $.$mol_assert_equal(name.exec('(')[0], '(');
+        'char except'() {
+            const { char_except, latin_only, tab } = $.$mol_regexp;
+            const name = char_except(latin_only, tab);
+            $.$mol_assert_like('a'.match(name), null);
+            $.$mol_assert_like('\t'.match(name), null);
+            $.$mol_assert_like('('.match(name), ['(']);
+        },
+        'unicode only'() {
+            const { unicode_only, from } = $.$mol_regexp;
+            const name = from([
+                unicode_only('Script', 'Cyrillic'),
+                unicode_only('Hex_Digit'),
+            ]);
+            $.$mol_assert_like('FF'.match(name), null);
+            $.$mol_assert_like('ФG'.match(name), null);
+            $.$mol_assert_like('ФF'.match(name), ['ФF']);
+        },
+        'generate by optional with inner group'() {
+            const { begin, end, from } = $.$mol_regexp;
+            const animals = from([begin, '#', ['^', { dog: '@' }], end]);
+            $.$mol_assert_equal(animals.generate({}), '#');
+            $.$mol_assert_equal(animals.generate({ dog: false }), '#');
+            $.$mol_assert_equal(animals.generate({ dog: true }), '#^@');
+            $.$mol_assert_fail(() => animals.generate({ dog: '$' }), 'Wrong param: dog=$');
+        },
+        'generate by optional with inner group with variants'() {
+            const { begin, end, from } = $.$mol_regexp;
+            const animals = from([begin, '#', ['^', { animal: { dog: '@', fox: '&' } }], end]);
+            $.$mol_assert_equal(animals.generate({}), '#');
+            $.$mol_assert_equal(animals.generate({ dog: true }), '#^@');
+            $.$mol_assert_equal(animals.generate({ fox: true }), '#^&');
+            $.$mol_assert_fail(() => animals.generate({ dog: '$' }), 'Wrong param: dog=$');
+        },
+        'complex example'() {
+            const { begin, end, char_only, char_range, latin_only, slash_back, repeat_greedy, from, } = $.$mol_regexp;
+            const atom_char = char_only(latin_only, "!#$%&'*+/=?^`{|}~-");
+            const atom = repeat_greedy(atom_char, 1);
+            const dot_atom = from([atom, repeat_greedy(['.', atom])]);
+            const name_letter = char_only(char_range(0x01, 0x08), 0x0b, 0x0c, char_range(0x0e, 0x1f), 0x21, char_range(0x23, 0x5b), char_range(0x5d, 0x7f));
+            const quoted_pair = from([
+                slash_back,
+                char_only(char_range(0x01, 0x09), 0x0b, 0x0c, char_range(0x0e, 0x7f))
+            ]);
+            const name = repeat_greedy({ name_letter, quoted_pair });
+            const quoted_name = from(['"', { name }, '"']);
+            const local_part = from({ dot_atom, quoted_name });
+            const domain = dot_atom;
+            const mail = from([begin, local_part, '@', { domain }, end]);
+            $.$mol_assert_equal('foo..bar@example.org'.match(mail), null);
+            $.$mol_assert_equal('foo..bar"@example.org'.match(mail), null);
+            $.$mol_assert_like([...'foo.bar@example.org'.matchAll(mail)][0].groups, {
+                domain: "example.org",
+                dot_atom: "foo.bar",
+                name: "",
+                name_letter: "",
+                quoted_name: "",
+                quoted_pair: "",
+            });
+            $.$mol_assert_like([...'"foo..bar"@example.org'.matchAll(mail)][0].groups, {
+                dot_atom: "",
+                quoted_name: '"foo..bar"',
+                name: "foo..bar",
+                name_letter: "r",
+                quoted_pair: "",
+                domain: "example.org",
+            });
+            $.$mol_assert_equal(mail.generate({ dot_atom: 'foo.bar', domain: 'example.org' }), 'foo.bar@example.org');
+            $.$mol_assert_equal(mail.generate({ name: 'foo..bar', domain: 'example.org' }), '"foo..bar"@example.org');
+            $.$mol_assert_fail(() => mail.generate({ dot_atom: 'foo..bar', domain: 'example.org' }), 'Wrong param: dot_atom=foo..bar');
         },
     });
 })($ || ($ = {}));
@@ -10340,15 +10387,10 @@ var $;
             return $.$mol_fail(new Error('dom_tree() not implemented'));
         }
     }
+    Symbol.toStringTag;
     $.$mol_jsx_view = $mol_jsx_view;
 })($ || ($ = {}));
 //view.js.map
-;
-"use strict";
-//equals.test.js.map
-;
-"use strict";
-//equals.js.map
 ;
 "use strict";
 var $;
@@ -10415,7 +10457,7 @@ var $;
             super(message);
             this.errors = errors;
             if (errors.length) {
-                const stacks = [...errors.map(error => error.message), this.stack];
+                const stacks = [...errors.map(error => error.stack), this.stack];
                 const diff = $.$mol_diff_path(...stacks.map(stack => {
                     if (!stack)
                         return [];
@@ -10437,6 +10479,136 @@ var $;
 ;
 "use strict";
 var $;
+(function ($) {
+    class $mol_view_tree_test_attributes_super extends $.$mol_view {
+        some() {
+            return {
+                a: 0,
+                b: 2
+            };
+        }
+    }
+    $.$mol_view_tree_test_attributes_super = $mol_view_tree_test_attributes_super;
+    class $mol_view_tree_test_attributes extends $mol_view_tree_test_attributes_super {
+        some() {
+            return {
+                ...super.some(),
+                a: 1
+            };
+        }
+    }
+    $.$mol_view_tree_test_attributes = $mol_view_tree_test_attributes;
+})($ || ($ = {}));
+//attributes.test.view.tree.js.map
+;
+"use strict";
+var $;
+(function ($) {
+    class $mol_view_tree_test_binding extends $.$mol_view {
+        value(val) {
+            return this.task_title_new(val);
+        }
+        enabled() {
+            return this.head_complete_enabled();
+        }
+        task_title_new(val) {
+            if (val !== undefined)
+                return val;
+            return "123";
+        }
+        head_complete_enabled() {
+            return false;
+        }
+    }
+    __decorate([
+        $.$mol_mem
+    ], $mol_view_tree_test_binding.prototype, "task_title_new", null);
+    $.$mol_view_tree_test_binding = $mol_view_tree_test_binding;
+})($ || ($ = {}));
+//binding.test.view.tree.js.map
+;
+"use strict";
+var $;
+(function ($) {
+    class $mol_view_tree_test_binding_right extends $.$mol_view {
+        outer_width(v) {
+            return this.Test().width(v);
+        }
+        Test() {
+            const obj = new this.$.$mol_view_tree_test_binding_right_test();
+            return obj;
+        }
+    }
+    __decorate([
+        $.$mol_mem
+    ], $mol_view_tree_test_binding_right.prototype, "Test", null);
+    $.$mol_view_tree_test_binding_right = $mol_view_tree_test_binding_right;
+    class $mol_view_tree_test_binding_right_test extends $.$mol_view {
+        width(val) {
+            if (val !== undefined)
+                return val;
+            return 0;
+        }
+    }
+    __decorate([
+        $.$mol_mem
+    ], $mol_view_tree_test_binding_right_test.prototype, "width", null);
+    $.$mol_view_tree_test_binding_right_test = $mol_view_tree_test_binding_right_test;
+})($ || ($ = {}));
+//binding_right.test.view.tree.js.map
+;
+"use strict";
+var $;
+(function ($) {
+    class $mol_view_tree_test_simple extends $.$mol_view {
+        some() {
+            return 1;
+        }
+        bool() {
+            return true;
+        }
+        str() {
+            return "test";
+        }
+        arr() {
+            return [];
+        }
+        arr_string() {
+            return [];
+        }
+    }
+    $.$mol_view_tree_test_simple = $mol_view_tree_test_simple;
+})($ || ($ = {}));
+//simple.test.view.tree.js.map
+;
+"use strict";
+var $;
+(function ($) {
+    class $mol_view_tree_test_attributes_subcomponent extends $.$mol_view {
+        Page(index) {
+            const obj = new this.$.$mol_view_tree_test_attributes_subcomponent_page();
+            obj.Sub = () => this.page(index);
+            return obj;
+        }
+        page(index) {
+            return null;
+        }
+    }
+    __decorate([
+        $.$mol_mem_key
+    ], $mol_view_tree_test_attributes_subcomponent.prototype, "Page", null);
+    $.$mol_view_tree_test_attributes_subcomponent = $mol_view_tree_test_attributes_subcomponent;
+    class $mol_view_tree_test_attributes_subcomponent_page extends $.$mol_view {
+        Sub() {
+            return null;
+        }
+    }
+    $.$mol_view_tree_test_attributes_subcomponent_page = $mol_view_tree_test_attributes_subcomponent_page;
+})($ || ($ = {}));
+//subcomponent.test.view.tree.js.map
+;
+"use strict";
+var $;
 (function ($_1) {
     var $$;
     (function ($$) {
@@ -10455,9 +10627,9 @@ var $;
             },
             'both binding'($) {
                 const app = $_1.$mol_view_tree_test_binding.make({ $ });
-                $_1.$mol_assert_ok(app.value() !== 1);
-                app.value(1);
-                $_1.$mol_assert_equal(app.value(), 1);
+                $_1.$mol_assert_ok(app.value() !== '1');
+                app.value('1');
+                $_1.$mol_assert_equal(app.value(), '1');
             },
             'left binding'($) {
                 const app = $_1.$mol_view_tree_test_binding.make({ $ });
@@ -10500,5 +10672,286 @@ var $;
     })($$ = $_1.$$ || ($_1.$$ = {}));
 })($ || ($ = {}));
 //tree.test.js.map
+;
+"use strict";
+var $;
+(function ($) {
+    function $mol_view_tree_trim_remarks(def) {
+        return def.transform(([node], sub) => (node.type === '-') ? null : node.clone({ sub: sub() }));
+    }
+    $.$mol_view_tree_trim_remarks = $mol_view_tree_trim_remarks;
+    function $mol_view_tree_classes(defs) {
+        return $mol_view_tree_trim_remarks(defs);
+    }
+    $.$mol_view_tree_classes = $mol_view_tree_classes;
+    function $mol_view_tree_class_name(val) {
+        return val.type;
+    }
+    $.$mol_view_tree_class_name = $mol_view_tree_class_name;
+    function $mol_view_tree_super_name(val) {
+        if (val.sub.length != 1)
+            throw val.error('Wrong sub count');
+        return val.sub[0].type;
+    }
+    $.$mol_view_tree_super_name = $mol_view_tree_super_name;
+    function $mol_view_tree_class_props(def) {
+        const props = {};
+        const catch_prop = (prop, type = '') => {
+            let def = prop;
+            if (type === '=>') {
+                if (prop.sub[0])
+                    throw prop.error('Right binding can not have default value');
+            }
+            else {
+                if (prop.sub.length === 0)
+                    return;
+                if (prop.sub[0].type === '-')
+                    return;
+                props[prop.type] = props[prop.type];
+                def = prop.clone({
+                    sub: [prop.sub[0].transform(([node, ...stack], sub) => {
+                            if (['<=', '<=>', '=>'].indexOf(node.type) === -1)
+                                return node.clone({ sub: sub() });
+                            catch_prop(node.sub[0], node.type);
+                            return node.clone({
+                                sub: [node.sub[0].clone({
+                                        sub: []
+                                    })]
+                            });
+                        })]
+                });
+            }
+            if (props[prop.type]) {
+                if (props[prop.type].toString() !== def.toString()) {
+                    throw def.error('Property already defined with another default value' + props[prop.type].error('').message + '\n---');
+                }
+            }
+            else {
+                props[prop.type] = def;
+            }
+        };
+        def.sub[0].sub.map(sub => catch_prop(sub));
+        return def.clone({
+            type: '',
+            sub: Object.keys(props).map(name => props[name]),
+        });
+    }
+    $.$mol_view_tree_class_props = $mol_view_tree_class_props;
+    function $mol_view_tree_prop_name(prop) {
+        return (prop.type.match(/^\w+/) || [])[0] || '';
+    }
+    $.$mol_view_tree_prop_name = $mol_view_tree_prop_name;
+    function $mol_view_tree_prop_key(prop) {
+        return (prop.type.match(/!(\w+)$/) || [])[1] || '';
+    }
+    $.$mol_view_tree_prop_key = $mol_view_tree_prop_key;
+    function $mol_view_tree_prop_next(prop) {
+        return (prop.type.match(/\?(\w+)$/) || [])[1] || '';
+    }
+    $.$mol_view_tree_prop_next = $mol_view_tree_prop_next;
+    function $mol_view_tree_prop_value(prop) {
+        if (prop.sub.length != 1)
+            throw prop.error(`Wrong sub count (${prop.sub.length})`);
+        return prop.sub[0];
+    }
+    $.$mol_view_tree_prop_value = $mol_view_tree_prop_value;
+    function $mol_view_tree_value_type(val) {
+        switch (val.type) {
+            case 'true': return 'bool';
+            case 'false': return 'bool';
+            case 'null': return 'null';
+            case '*': return 'dict';
+            case '@': return 'locale';
+            case '': return 'string';
+            case '<=': return 'get';
+            case '<=>': return 'bind';
+            case '=>': return 'put';
+        }
+        switch (val.type[0]) {
+            case '/': return 'list';
+            case '$': return 'object';
+        }
+        if (Number(val.type).toString() == val.type)
+            return 'number';
+        throw val.error('Wrong value');
+    }
+    $.$mol_view_tree_value_type = $mol_view_tree_value_type;
+    function $mol_view_tree_compile(tree) {
+        const splittedUri = tree.uri.split(/[#\\\/]/);
+        splittedUri.pop();
+        const fileName = splittedUri.pop();
+        const SourceNode = (row, col, fileName, text) => text;
+        var content = [];
+        var locales = {};
+        for (let def of $mol_view_tree_classes(tree).sub) {
+            if (!/^\$\w+$/.test(def.type))
+                throw def.error('Wrong component name');
+            var parent = def.sub[0];
+            var members = {};
+            for (let param of $mol_view_tree_class_props(def).sub) {
+                try {
+                    var needSet = false;
+                    var needCache = false;
+                    if (param.type === '<=>') {
+                        param = param.sub[0];
+                    }
+                    if (param.type === '<=') {
+                        param = param.sub[0];
+                    }
+                    var propName = /(.*?)(?:\!(\w+))?(?:\?(\w+))?$/.exec(param.type);
+                    if (propName[3]) {
+                        needSet = true;
+                        needCache = true;
+                    }
+                    const getValue = (value, definition) => {
+                        try {
+                            switch (true) {
+                                case (value.type === ''):
+                                    return [JSON.stringify(value.value)];
+                                case (value.type === '@'):
+                                    const key = `${def.type}_${param.type.replace(/[?!].*/, '')}`;
+                                    locales[key] = value.value;
+                                    return [`this.$.$mol_locale.text( ${JSON.stringify(key)} )`];
+                                case (value.type === '-'):
+                                    return null;
+                                case (value.type[0] === '/'):
+                                    const item_type = value.type.substring(1);
+                                    var items = [];
+                                    value.sub.forEach(item => {
+                                        if (item.type === '-')
+                                            return;
+                                        if (item.type === '^') {
+                                            items.push(`...super.${param.type}()`);
+                                            return;
+                                        }
+                                        var val = getValue(item);
+                                        if (val)
+                                            items.push(val.join(""));
+                                    });
+                                    return [`[`, items.join(' , '), `]`, (item_type ? ` as readonly ( ${item_type} )[]` : ` as readonly any[]`)];
+                                case (value.type[0] === '$'):
+                                    if (!definition)
+                                        throw value.error('Objects should be bound');
+                                    needCache = true;
+                                    var overs = [];
+                                    value.sub.forEach(over => {
+                                        if (/^[-\/]?$/.test(over.type))
+                                            return '';
+                                        var overName = /(.*?)(?:\!(\w+))?(?:\?(\w+))?$/.exec(over.type);
+                                        var ns = needSet;
+                                        if (over.sub[0].type === '=>') {
+                                            if (over.sub[0].sub.length === 1) {
+                                                const [, own_name, own_key, own_next] = /(.*?)(?:\!(\w+))?(?:\?(\w+))?$/.exec(over.sub[0].sub[0].type);
+                                                let own_args = [];
+                                                if (own_key)
+                                                    own_args.push(` ${own_key} : any `);
+                                                if (own_next)
+                                                    own_args.push(` ${own_next}? : any `);
+                                                let [, their_name, ...their_args] = /(.*?)(?:\!(\w+))?(?:\?(\w+))?$/.exec(over.type);
+                                                their_args = their_args.filter(Boolean);
+                                                members[own_name] = [`\t${own_name}(${own_args.join(',')}) {\n\t\treturn this.${propName[1]}(${propName[2] || ''}).${their_name}( ${their_args.join(' , ')} )\n\t}\n\n`];
+                                                return;
+                                            }
+                                        }
+                                        var v = getValue(over.sub[0]);
+                                        let args = [];
+                                        if (overName[2])
+                                            args.push(` ${overName[2]} : any `);
+                                        if (overName[3])
+                                            args.push(` ${overName[3]}? : any `);
+                                        overs.push(...['\t\t\tobj.', SourceNode(over.row, over.col, fileName, overName[1]), ' = (', args.join(','), ') => ', ...(v || []), '\n']);
+                                        needSet = ns;
+                                    });
+                                    const object_args = value.select('/', '').sub.map(arg => getValue(arg)).join(' , ');
+                                    return ['(( obj )=>{\n', ...overs, '\t\t\treturn obj\n\t\t})( new this.$.', SourceNode(value.row, value.col, fileName, value.type), '( ', object_args, ' ) )'];
+                                case (value.type === '*'):
+                                    var opts = [];
+                                    value.sub.forEach(opt => {
+                                        if (opt.type === '-')
+                                            return '';
+                                        if (opt.type === '^') {
+                                            opts.push(`\t\t\t...super.${param.type}() ,\n`);
+                                            return;
+                                        }
+                                        var key = /(.*?)(?:\?(\w+))?$/.exec(opt.type);
+                                        var ns = needSet;
+                                        var v = getValue(opt.sub[0]);
+                                        var arg = key[2] ? ` ( ${key[2]}? : any )=> ` : '';
+                                        opts.push(...['\t\t\t"', SourceNode(opt.row, opt.col, fileName, key[1] + '" : '), arg, ' ', ...(v || []), ' ,\n']);
+                                        needSet = ns;
+                                    });
+                                    return ['({\n', opts.join(''), '\t\t})'];
+                                case (value.type === '<=>'):
+                                    if (value.sub.length === 1) {
+                                        var type = /(.*?)(?:\!(\w+))?(?:\?(\w+))$/.exec(value.sub[0].type);
+                                        return ['this.' + type[1] + '(' + (type[2] ? type[2] + ' ,' : '') + ' ' + type[3] + ' )'];
+                                    }
+                                    break;
+                                case (value.type === '<='):
+                                    if (value.sub.length === 1) {
+                                        var type = /(.*?)(?:\!(\w+))?(?:\?(\w+))?$/.exec(value.sub[0].type);
+                                        return ['this.' + type[1] + '(' + (type[2] ? type[2] : '') + ')'];
+                                    }
+                                    break;
+                            }
+                            switch (value.type) {
+                                case 'true':
+                                case 'false':
+                                    return [value.type];
+                                case 'null':
+                                    return ['null as any'];
+                            }
+                            if (Number(value.type).toString() == value.type)
+                                return [value.type];
+                            throw value.error('Wrong value');
+                        }
+                        catch (err) {
+                            throw err;
+                        }
+                    };
+                    if (param.sub.length > 1)
+                        throw new Error('Too more sub');
+                    param.sub.forEach(child => {
+                        var val = getValue(child, true);
+                        if (!val)
+                            return;
+                        var args = [];
+                        if (propName[2])
+                            args.push(` ${propName[2]} : any `);
+                        if (propName[3])
+                            args.push(` ${propName[3]}? : any , force? : $${''}mol_mem_force `);
+                        if (needSet)
+                            val = [
+                                `( ${propName[3]} !== void 0 ) ? ${propName[3]} : `,
+                                ...val
+                            ];
+                        val = ['return ', ...val];
+                        var decl = ['\t', SourceNode(param.row, param.col, fileName, propName[1]), '(', args.join(','), ') {\n\t\t', ...val, '\n\t}\n\n'];
+                        if (needCache) {
+                            if (propName[2])
+                                decl = ['\t@ $', 'mol_mem_key\n', ...decl];
+                            else
+                                decl = ['\t@ $', 'mol_mem\n', ...decl];
+                        }
+                        decl = ['\t/**\n\t *  ```\n', param.toString().trim().replace(/^/mg, '\t *  '), '\n\t *  ```\n\t **/\n', ...decl];
+                        members[propName[1]] = decl;
+                    });
+                }
+                catch (err) {
+                    throw err;
+                }
+            }
+            var body = Object.keys(members).reduce(function (acc, name) {
+                const items = members[name] ? members[name] : ['\t', name, '() { return null as any }\n\t}\n'];
+                return [...acc, ...items];
+            }, []);
+            var classes = ['namespace $ { export class ', SourceNode(def.row, def.col, fileName, def.type), ' extends ', SourceNode(parent.row, parent.col, fileName, parent.type), ' {\n\n', ...body, '} }\n'];
+            content = [...content, ...classes];
+        }
+        return { script: content.join(''), locales };
+    }
+    $.$mol_view_tree_compile = $mol_view_tree_compile;
+})($ || ($ = {}));
+//tree.js.map
 
 //# sourceMappingURL=node.test.js.map

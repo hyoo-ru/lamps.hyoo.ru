@@ -108,7 +108,7 @@ $mol_check $mol_button_minor
 		mol_check_checked <= checked?val false
 		aria-checked <= checked?val false
 		role \checkbox
-	sub /
+	sub /$mol_view_content
 		<= Icon null
 		<= label /
 			<= Title $mol_view
@@ -127,6 +127,8 @@ $mol_lights_toggle $mol_check_icon
 $mol_pop $mol_view
 	event * keydown?event <=> keydown?event null
 	showed?val false
+	align_vert \
+	align_hor \
 	sub /
 		<= Anchor null
 		<= Bubble $mol_pop_bubble
@@ -163,8 +165,8 @@ $mol_nav $mol_plugin
 	keys_x?val /
 	keys_y?val /
 	-
-	current_x?val \
-	current_y?val \
+	current_x?val null
+	current_y?val null
 	-
 	event_up?event null
 	event_down?event null
@@ -179,6 +181,9 @@ $mol_string $mol_view
 	enabled true
 	minimal_height 40
 	autocomplete false
+	selection?val /number
+	auto /
+		<= selection_watcher null
 	field *
 		^
 		disabled <= disabled false
@@ -186,6 +191,8 @@ $mol_string $mol_view
 		placeholder <= hint \
 		spellcheck <= spellcheck false
 		autocomplete <= autocomplete_native \
+		selectionEnd <= selection_end 0
+		selectionStart <= selection_start 0
 	attr *
 		^
 		maxlength <= length_max Infinity
@@ -389,39 +396,3 @@ $hyoo_lamps $mol_book2
 			needle <= filter
 			haystack <= lamp_title!id \
 		arg <= lamp_arg!id *
-
-$mol_view_tree_test_attributes_super $mol_view
-	some *
-		a 0
-		b 2
-
-$mol_view_tree_test_attributes $mol_view_tree_test_attributes_super
-	some *
-		^
-		a 1
-
-$mol_view_tree_test_binding $mol_view
-	value?val <=> task_title_new?val \123
-	enabled <= head_complete_enabled false
-
-$mol_view_tree_test_binding_right $mol_view
-	Test $mol_view_tree_test_binding_right_test
-		width?v => outer_width?v
-
-$mol_view_tree_test_binding_right_test $mol_view
-	width?val 0
-
-$mol_view_tree_test_simple $mol_view
-	some 1
-	bool true
-	str \test
-	arr /
-	arr_string /string
-
-$mol_view_tree_test_attributes_subcomponent $mol_view
-	- Comment
-	Page!index $mol_view_tree_test_attributes_subcomponent_page
-		Sub <= page!index null
-
-$mol_view_tree_test_attributes_subcomponent_page $mol_view
-	Sub null
