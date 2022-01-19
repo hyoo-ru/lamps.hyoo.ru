@@ -15,13 +15,11 @@ namespace $.$$ {
 		@ $mol_mem
 		lamps() {
 			return this.lamps_all().filter(
-				$mol_fiber.func(
-					$mol_match_text(
-						this.filter() ,
-						( lamp : any )=> {
-							return Object.keys( lamp ).map( field => lamp[ field ] )
-						} ,
-					)
+				$mol_match_text(
+					this.filter() ,
+					( lamp : any )=> {
+						return Object.keys( lamp ).map( field => lamp[ field ] )
+					} ,
 				)
 			)
 		}
