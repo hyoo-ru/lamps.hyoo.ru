@@ -324,7 +324,7 @@ $mol_image $mol_view
 		^
 		src <= uri \
 		alt <= title
-		loading <= loading \lazy
+		loading <= loading \eager
 
 $hyoo_lamps $mol_book2
 	plugins /
