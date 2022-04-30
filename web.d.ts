@@ -1936,17 +1936,6 @@ declare namespace $.$$ {
 }
 
 declare namespace $ {
-    class $mol_float extends $mol_view {
-        style(): {
-            minHeight: string;
-        };
-    }
-}
-
-declare namespace $ {
-}
-
-declare namespace $ {
     class $mol_page extends $mol_view {
         dom_name(): string;
         sub(): readonly any[];
@@ -2016,7 +2005,7 @@ declare namespace $ {
         filter_hint(): string;
         filter(val?: any): string;
         Filter(): $$.$mol_code;
-        Filter_panel(): $mol_float;
+        Filter_panel(): $mol_view;
         lamp_rows(): readonly any[];
         Menu(): $$.$mol_list;
         Addon_page(): $mol_page;

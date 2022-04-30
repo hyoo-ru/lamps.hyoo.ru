@@ -281,11 +281,6 @@ $mol_code $mol_view
 			sub /
 				<= scan_label @ \Scan
 
-$mol_float $mol_view
-	style *
-		^
-		minHeight \auto
-
 $mol_page $mol_view
 	dom_name \article
 	sub /
@@ -340,7 +335,7 @@ $hyoo_lamps $mol_book2
 			body /
 				<= Menu $mol_list
 					rows <= lamp_rows /
-						<= Filter_panel $mol_float
+						<= Filter_panel $mol_view
 							sub /
 								<= Filter $mol_code
 									hint <= filter_hint @ \Filter...
