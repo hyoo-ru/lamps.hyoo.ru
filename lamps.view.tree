@@ -12,7 +12,7 @@ $hyoo_lamps $mol_book2
 			body /
 				<= Menu $mol_list
 					rows <= lamp_rows /
-						<= Filter_panel $mol_float
+						<= Filter_panel $mol_view
 							sub /
 								<= Filter $mol_code
 									hint <= filter_hint @ \Filter...
