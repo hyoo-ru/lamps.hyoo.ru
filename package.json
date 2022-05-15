@@ -150,6 +150,7 @@
     "$mol_labeler",
     "$mol_row",
     "$mol_image",
+    "$mol_csv_parse",
     "$mol_csv",
     "$mol_fetch",
     "$mol_dom_parse",

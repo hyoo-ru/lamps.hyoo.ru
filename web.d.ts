@@ -2053,9 +2053,7 @@ declare namespace $ {
 }
 
 declare namespace $ {
-    function $mol_csv_parse(text: string, delimiter?: string): {
-        [key: string]: any;
-    }[];
+    function $mol_csv_parse(text: string, delimiter?: string): Record<string, any>[];
 }
 
 declare namespace $ {
@@ -2082,13 +2080,9 @@ declare namespace $ {
 
 declare namespace $.$$ {
     class $hyoo_lamps extends $.$hyoo_lamps {
-        lamps_all(): {
-            [key: string]: any;
-        }[];
+        lamps_all(): Record<string, any>[];
         lamps2(): string;
-        lamps(): {
-            [key: string]: any;
-        }[];
+        lamps(): Record<string, any>[];
         lamps_dict(): {
             [key: string]: any;
         };

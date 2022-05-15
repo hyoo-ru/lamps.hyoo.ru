@@ -7084,24 +7084,24 @@ var $;
 "use strict";
 var $;
 (function ($) {
-    function $mol_csv_parse(text, delimiter = ';') {
+    function $mol_csv_parse(text, delimiter = ',') {
         var lines = text.split(/\r?\n/g);
         var header = lines.shift().split(delimiter);
         var res = [];
-        lines.forEach(line => {
+        for (const line of lines) {
             if (!line)
-                return;
+                continue;
             var row = {};
-            line.split(delimiter).forEach((val, index) => {
-                row[header[index]] = val;
-            });
+            for (const [index, val] of line.split(delimiter).entries()) {
+                row[header[index]] = val.replace(/^"|"$/g, '').replace(/""/g, '"');
+            }
             res.push(row);
-        });
+        }
         return res;
     }
     $.$mol_csv_parse = $mol_csv_parse;
 })($ || ($ = {}));
-//mol/csv/csv.ts
+//mol/csv/parse/parse.ts
 ;
 "use strict";
 var $;
@@ -10546,5 +10546,49 @@ var $;
     })($$ = $.$$ || ($.$$ = {}));
 })($ || ($ = {}));
 //mol/dimmer/dimmer.test.ts
+;
+"use strict";
+var $;
+(function ($) {
+    function $mol_csv_serial(data, delimiter = ',') {
+        const fields = new Set();
+        for (const item of data) {
+            for (const field of Object.keys(item)) {
+                fields.add(field);
+            }
+        }
+        const rows = [[...fields]];
+        for (const item of data) {
+            const row = [];
+            rows.push(row);
+            for (const field of fields) {
+                const val = String(item[field] ?? '');
+                row.push('"' + val.replace(/"/g, '""') + '"');
+            }
+        }
+        return rows.map(row => row.join(delimiter)).join('\n');
+    }
+    $.$mol_csv_serial = $mol_csv_serial;
+})($ || ($ = {}));
+//mol/csv/serial/serial.ts
+;
+"use strict";
+var $;
+(function ($) {
+    $mol_test({
+        'serial & parse'() {
+            const data = [
+                { foo: '123', bar: '456' },
+                { foo: 'x"xx', bar: 'y"y"y' },
+            ];
+            $mol_assert_like($mol_csv_parse($mol_csv_serial(data)), data);
+        },
+        'parse & serial'() {
+            const csv = 'foo,bar\n"123","456"\n"x""xx","y""y""y"';
+            $mol_assert_like($mol_csv_serial($mol_csv_parse(csv)), csv);
+        },
+    });
+})($ || ($ = {}));
+//mol/csv/csv.test.ts
 
 //# sourceMappingURL=node.test.js.map

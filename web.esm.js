@@ -6736,24 +6736,24 @@ var $;
 "use strict";
 var $;
 (function ($) {
-    function $mol_csv_parse(text, delimiter = ';') {
+    function $mol_csv_parse(text, delimiter = ',') {
         var lines = text.split(/\r?\n/g);
         var header = lines.shift().split(delimiter);
         var res = [];
-        lines.forEach(line => {
+        for (const line of lines) {
             if (!line)
-                return;
+                continue;
             var row = {};
-            line.split(delimiter).forEach((val, index) => {
-                row[header[index]] = val;
-            });
+            for (const [index, val] of line.split(delimiter).entries()) {
+                row[header[index]] = val.replace(/^"|"$/g, '').replace(/""/g, '"');
+            }
             res.push(row);
-        });
+        }
         return res;
     }
     $.$mol_csv_parse = $mol_csv_parse;
 })($ || ($ = {}));
-//mol/csv/csv.ts
+//mol/csv/parse/parse.ts
 ;
 "use strict";
 var $;
