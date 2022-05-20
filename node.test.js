@@ -7309,7 +7309,7 @@ var $;
     (function ($$) {
         class $hyoo_lamps extends $.$hyoo_lamps {
             lamps_all() {
-                return $mol_csv_parse($mol_fetch.text('https://lamptest.ru/led.php'));
+                return $mol_csv_parse($mol_fetch.text('https://lamptest.ru/led.php'), ';');
             }
             lamps2() {
                 return $mol_fetch.text('//lamptest.ru/led.php');
