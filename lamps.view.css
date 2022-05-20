@@ -3,7 +3,7 @@
 }
 
 [hyoo_lamps_filter] {
-	display: block;
+	align-self: stretch;
 }
 
 [hyoo_lamps_menu] {
@@ -36,11 +36,11 @@
 	flex: 0 0 20rem;
 }
 
-[hyoo_lamps_main_page] {
-	flex: 0 0 40rem;
-}
-
 [hyoo_lamps_light] ,
 [hyoo_lamps_body] {
 	justify-content: space-between;
+}
+
+[hyoo_lamps_info] [mol_labeler_content] {
+	padding: var(--mol_gap_text);
 }

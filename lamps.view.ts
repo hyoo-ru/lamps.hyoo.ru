@@ -37,7 +37,10 @@ namespace $.$$ {
 		
 		@ $mol_mem
 		lamp_rows() {
-			return [...super.lamp_rows(), ...this.lamps().map( lamp => this.Lamp_row( lamp[ 'no' ] ) )]
+			return [
+				this.Filter(),
+				... this.lamps().map( lamp => this.Lamp_row( lamp[ 'no' ] ) )
+			]
 		}
 		
 		lamp_title( id : string ) {
@@ -73,7 +76,7 @@ namespace $.$$ {
 			
 			sub.push( this.Addon_page() )
 			
-			if( this.lamp() ) sub.push( this.Main_page() )
+			if( this.lamp() !== null ) sub.push( this.Main_page( this.lamp() ) )
 			
 			return sub
 		}

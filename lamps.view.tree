@@ -12,12 +12,15 @@ $hyoo_lamps $mol_book2
 			body /
 				<= Menu $mol_list
 					rows <= lamp_rows /
-						<= Filter_panel $mol_view
-							sub /
-								<= Filter $mol_code
-									hint <= filter_hint @ \Filter...
-									value?val <=> filter?val \
-		<= Main_page $mol_page
+						<= Filter $mol_search
+							hint <= filter_hint @ \Filter...
+							query?val <=> filter?val \
+						<= Lamp_row*0 $mol_link
+							sub / <= Lamp_row_dimmer* $mol_dimmer
+								needle <= filter
+								haystack <= lamp_title* \
+							arg <= lamp_arg* *
+		<= Main_page* $mol_page
 			title <= title \
 			tools /
 				<= Close $mol_link
@@ -28,19 +31,19 @@ $hyoo_lamps $mol_book2
 			body /
 				<= Info $mol_row
 					sub /
-						<= Stat $mol_row
+						<= Stat $mol_view
 							sub /
 								<= Rating $mol_labeler
 									title <= rating_title @ \Rating
 									content /
 										<= rating 0
-						<= Props $mol_row
+						<= Props $mol_view
 							sub /
 								<= Wattage $mol_labeler
 									title <= wattage_title @ \Wattage
 									content /
 										<= wattage \
-						<= Body $mol_row
+						<= Body $mol_view
 							sub /
 								<= Type $mol_labeler
 									title <= type_title @ \Type
@@ -54,7 +57,7 @@ $hyoo_lamps $mol_book2
 									title <= base_title @ \Base
 									content /
 										<= base \
-						<= Light $mol_row
+						<= Light $mol_view
 							sub /
 								<= Temp $mol_labeler
 									title <= Temp_title @ \Temperature
@@ -72,13 +75,8 @@ $hyoo_lamps $mol_book2
 									title <= angle_title @ \Angle
 									content /
 										<= angle \
-				<= Gallery $mol_row
+				<= Gallery $mol_view
 					sub /
 						<= Photo $mol_image
 							uri <= photo \
 							title <= title
-	Lamp_row!id $mol_link
-		sub / <= Lamp_row_dimmer!id $mol_dimmer
-			needle <= filter
-			haystack <= lamp_title!id \
-		arg <= lamp_arg!id *
