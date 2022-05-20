@@ -4,7 +4,7 @@ namespace $.$$ {
 		
 		@ $mol_mem
 		lamps_all() {
-			return $mol_csv_parse( $mol_fetch.text( 'https://lamptest.ru/led.php' ) )
+			return $mol_csv_parse( $mol_fetch.text( 'https://lamptest.ru/led.php' ), ';' )
 		}
 		
 		@ $mol_mem
