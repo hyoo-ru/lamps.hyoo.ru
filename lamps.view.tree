@@ -20,7 +20,7 @@ $hyoo_lamps $mol_book2
 								needle <= filter
 								haystack <= lamp_title* \
 							arg <= lamp_arg* *
-		<= Main_page* $mol_page
+		<= Main_page*0 $mol_page
 			title <= title \
 			tools /
 				<= Close $mol_link
