@@ -13,6 +13,9 @@ $mol_book2 $mol_scroll
 	minimal_width 0
 	Placeholder $mol_view
 
+$mol_theme_auto $mol_plugin
+	attr * mol_theme <= theme \
+
 $mol_svg $mol_view
 	dom_name \svg
 	dom_name_space \http://www.w3.org/2000/svg
@@ -57,9 +60,6 @@ $mol_link $mol_view
 	event *
 		^
 		click?event <=> click?event <=> event_click?event null
-
-$mol_theme_auto $mol_plugin
-	attr * mol_theme <= theme \
 
 $mol_icon_github_circle $mol_icon path \M12,2C6.48,2 2,6.48 2,12C2,16.42 4.87,20.17 8.84,21.5C9.34,21.58 9.5,21.27 9.5,21C9.5,20.77 9.5,20.14 9.5,19.31C6.73,19.91 6.14,17.97 6.14,17.97C5.68,16.81 5.03,16.5 5.03,16.5C4.12,15.88 5.1,15.9 5.1,15.9C6.1,15.97 6.63,16.93 6.63,16.93C7.5,18.45 8.97,18 9.54,17.76C9.63,17.11 9.89,16.67 10.17,16.42C7.95,16.17 5.62,15.31 5.62,11.5C5.62,10.39 6,9.5 6.65,8.79C6.55,8.54 6.2,7.5 6.75,6.15C6.75,6.15 7.59,5.88 9.5,7.17C10.29,6.95 11.15,6.84 12,6.84C12.85,6.84 13.71,6.95 14.5,7.17C16.41,5.88 17.25,6.15 17.25,6.15C17.8,7.5 17.45,8.54 17.35,8.79C18,9.5 18.38,10.39 18.38,11.5C18.38,15.32 16.04,16.16 13.81,16.41C14.17,16.72 14.5,17.33 14.5,18.26C14.5,19.6 14.5,20.68 14.5,21C14.5,21.27 14.66,21.59 15.17,21.5C19.14,20.16 22,16.42 22,12C22,6.48 17.52,2 12,2Z
 
@@ -271,16 +271,6 @@ $mol_search $mol_pop
 				haystack <= suggest_label* \
 				needle <= query?val \
 
-$mol_code $mol_view
-	sub /
-		<= Manual $mol_search
-			query?val <=> value?val \
-			hint <= hint <= format \
-		<= Scan $mol_button
-			event_click?val <=> event_scan?val null
-			sub /
-				<= scan_label @ \Scan
-
 $mol_page $mol_view
 	dom_name \article
 	sub /
@@ -335,12 +325,15 @@ $hyoo_lamps $mol_book2
 			body /
 				<= Menu $mol_list
 					rows <= lamp_rows /
-						<= Filter_panel $mol_view
-							sub /
-								<= Filter $mol_code
-									hint <= filter_hint @ \Filter...
-									value?val <=> filter?val \
-		<= Main_page $mol_page
+						<= Filter $mol_search
+							hint <= filter_hint @ \Filter...
+							query?val <=> filter?val \
+						<= Lamp_row*0 $mol_link
+							sub / <= Lamp_row_dimmer* $mol_dimmer
+								needle <= filter
+								haystack <= lamp_title* \
+							arg <= lamp_arg* *
+		<= Main_page*0 $mol_page
 			title <= title \
 			tools /
 				<= Close $mol_link
@@ -351,19 +344,19 @@ $hyoo_lamps $mol_book2
 			body /
 				<= Info $mol_row
 					sub /
-						<= Stat $mol_row
+						<= Stat $mol_view
 							sub /
 								<= Rating $mol_labeler
 									title <= rating_title @ \Rating
 									content /
 										<= rating 0
-						<= Props $mol_row
+						<= Props $mol_view
 							sub /
 								<= Wattage $mol_labeler
 									title <= wattage_title @ \Wattage
 									content /
 										<= wattage \
-						<= Body $mol_row
+						<= Body $mol_view
 							sub /
 								<= Type $mol_labeler
 									title <= type_title @ \Type
@@ -377,7 +370,7 @@ $hyoo_lamps $mol_book2
 									title <= base_title @ \Base
 									content /
 										<= base \
-						<= Light $mol_row
+						<= Light $mol_view
 							sub /
 								<= Temp $mol_labeler
 									title <= Temp_title @ \Temperature
@@ -395,13 +388,8 @@ $hyoo_lamps $mol_book2
 									title <= angle_title @ \Angle
 									content /
 										<= angle \
-				<= Gallery $mol_row
+				<= Gallery $mol_view
 					sub /
 						<= Photo $mol_image
 							uri <= photo \
 							title <= title
-	Lamp_row!id $mol_link
-		sub / <= Lamp_row_dimmer!id $mol_dimmer
-			needle <= filter
-			haystack <= lamp_title!id \
-		arg <= lamp_arg!id *

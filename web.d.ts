@@ -14,20 +14,6 @@ declare namespace $ {
 }
 
 declare namespace $ {
-    var $mol_dom_context: typeof globalThis;
-}
-
-declare namespace $ {
-}
-
-declare namespace $ {
-    let $mol_report_bugsnag: string;
-}
-
-declare namespace $ {
-}
-
-declare namespace $ {
     const $mol_ambient_ref: unique symbol;
     type $mol_ambient_context = $;
     function $mol_ambient(this: $ | void, overrides: Partial<$>): $;
@@ -88,6 +74,13 @@ declare namespace $ {
         constructor(task: () => void);
         destructor(): void;
     }
+}
+
+declare namespace $ {
+    var $mol_dom_context: typeof globalThis;
+}
+
+declare namespace $ {
 }
 
 declare namespace $ {
@@ -838,6 +831,82 @@ declare namespace $.$$ {
 }
 
 declare namespace $ {
+    class $mol_theme_auto extends $mol_plugin {
+        attr(): {
+            mol_theme: string;
+        };
+        theme(): string;
+    }
+}
+
+declare namespace $ {
+    class $mol_state_arg extends $mol_object {
+        prefix: string;
+        static href(next?: string): string;
+        static href_normal(): string;
+        static href_absolute(): string;
+        static dict(next?: {
+            [key: string]: string | null;
+        }): {
+            [key: string]: string;
+        };
+        static dict_cut(except: string[]): {
+            [key: string]: string;
+        };
+        static value(key: string, next?: string | null): string | null;
+        static link(next: {
+            [key: string]: string;
+        }): string;
+        static prolog: string;
+        static separator: string;
+        static make_link(next: {
+            [key: string]: string | null;
+        }): string;
+        static encode(str: string): string;
+        constructor(prefix?: string);
+        value(key: string, next?: string): string | null;
+        sub(postfix: string): $mol_state_arg;
+        link(next: {
+            [key: string]: string;
+        }): string;
+    }
+}
+
+declare namespace $ {
+    class $mol_media extends $mol_object2 {
+        static match(query: string, next?: boolean): boolean;
+    }
+}
+
+declare namespace $ {
+    class $mol_state_local<Value> extends $mol_object {
+        static 'native()': Pick<Storage, 'getItem' | 'setItem' | 'removeItem'>;
+        static native(): Storage | {
+            getItem(key: string): any;
+            setItem(key: string, value: string): void;
+            removeItem(key: string): void;
+        };
+        static changes(next?: StorageEvent): StorageEvent | undefined;
+        static value<Value>(key: string, next?: Value | null): Value | null;
+        prefix(): string;
+        value(key: string, next?: Value): Value | null;
+    }
+}
+
+declare namespace $ {
+}
+
+declare namespace $ {
+    function $mol_lights(this: $, next?: boolean): boolean;
+}
+
+declare namespace $.$$ {
+    class $mol_theme_auto extends $.$mol_theme_auto {
+        theme(): "$mol_theme_light" | "$mol_theme_dark";
+    }
+}
+
+declare namespace $ {
     class $mol_svg extends $mol_view {
         dom_name(): string;
         dom_name_space(): string;
@@ -937,39 +1006,6 @@ declare namespace $ {
 }
 
 declare namespace $ {
-    class $mol_state_arg extends $mol_object {
-        prefix: string;
-        static href(next?: string): string;
-        static href_normal(): string;
-        static href_absolute(): string;
-        static dict(next?: {
-            [key: string]: string | null;
-        }): {
-            [key: string]: string;
-        };
-        static dict_cut(except: string[]): {
-            [key: string]: string;
-        };
-        static value(key: string, next?: string | null): string | null;
-        static link(next: {
-            [key: string]: string;
-        }): string;
-        static prolog: string;
-        static separator: string;
-        static make_link(next: {
-            [key: string]: string | null;
-        }): string;
-        static encode(str: string): string;
-        constructor(prefix?: string);
-        value(key: string, next?: string): string | null;
-        sub(postfix: string): $mol_state_arg;
-        link(next: {
-            [key: string]: string;
-        }): string;
-    }
-}
-
-declare namespace $ {
 }
 
 declare namespace $.$$ {
@@ -980,49 +1016,6 @@ declare namespace $.$$ {
         file_name(): string;
         minimal_height(): number;
         target(): '_self' | '_blank' | '_top' | '_parent' | string;
-    }
-}
-
-declare namespace $ {
-    class $mol_theme_auto extends $mol_plugin {
-        attr(): {
-            mol_theme: string;
-        };
-        theme(): string;
-    }
-}
-
-declare namespace $ {
-    class $mol_media extends $mol_object2 {
-        static match(query: string, next?: boolean): boolean;
-    }
-}
-
-declare namespace $ {
-    class $mol_state_local<Value> extends $mol_object {
-        static 'native()': Pick<Storage, 'getItem' | 'setItem' | 'removeItem'>;
-        static native(): Storage | {
-            getItem(key: string): any;
-            setItem(key: string, value: string): void;
-            removeItem(key: string): void;
-        };
-        static changes(next?: StorageEvent): StorageEvent | undefined;
-        static value<Value>(key: string, next?: Value | null): Value | null;
-        prefix(): string;
-        value(key: string, next?: Value): Value | null;
-    }
-}
-
-declare namespace $ {
-}
-
-declare namespace $ {
-    function $mol_lights(this: $, next?: boolean): boolean;
-}
-
-declare namespace $.$$ {
-    class $mol_theme_auto extends $.$mol_theme_auto {
-        theme(): "$mol_theme_light" | "$mol_theme_dark";
     }
 }
 
@@ -1905,36 +1898,6 @@ declare namespace $.$$ {
 }
 
 declare namespace $ {
-    class $mol_code extends $mol_view {
-        sub(): readonly any[];
-        value(val?: any): string;
-        format(): string;
-        hint(): string;
-        Manual(): $$.$mol_search;
-        event_scan(val?: any): any;
-        scan_label(): string;
-        Scan(): $$.$mol_button;
-    }
-}
-
-declare var cordova: any;
-declare namespace $ {
-    var $mol_cordova: any;
-    function $mol_cordova_camera(): any;
-}
-
-declare namespace $ {
-}
-
-declare namespace $.$$ {
-    class $mol_code extends $.$mol_code {
-        scan_support(): boolean;
-        sub(): ($mol_button | $mol_search)[];
-        event_scan(): void;
-    }
-}
-
-declare namespace $ {
     class $mol_page extends $mol_view {
         dom_name(): string;
         sub(): readonly any[];
@@ -1996,15 +1959,17 @@ declare namespace $ {
         plugins(): readonly any[];
         lamp_current_id(val?: any): string;
         pages(): readonly any[];
-        Lamp_row(id: any): $$.$mol_link;
         Theme(): $$.$mol_theme_auto;
         menu_scroll_top(val?: any): number;
         Source(): $mol_link_source;
         Lights(): $$.$mol_lights_toggle;
         filter_hint(): string;
         filter(val?: any): string;
-        Filter(): $$.$mol_code;
-        Filter_panel(): $mol_view;
+        Filter(): $$.$mol_search;
+        lamp_title(id: any): string;
+        Lamp_row_dimmer(id: any): $$.$mol_dimmer;
+        lamp_arg(id: any): {};
+        Lamp_row(id: any): $$.$mol_link;
         lamp_rows(): readonly any[];
         Menu(): $$.$mol_list;
         Addon_page(): $mol_page;
@@ -2014,11 +1979,11 @@ declare namespace $ {
         rating_title(): string;
         rating(): number;
         Rating(): $mol_labeler;
-        Stat(): $mol_row;
+        Stat(): $mol_view;
         wattage_title(): string;
         wattage(): string;
         Wattage(): $mol_labeler;
-        Props(): $mol_row;
+        Props(): $mol_view;
         type_title(): string;
         type(): string;
         Type(): $mol_labeler;
@@ -2028,7 +1993,7 @@ declare namespace $ {
         base_title(): string;
         base(): string;
         Base(): $mol_labeler;
-        Body(): $mol_row;
+        Body(): $mol_view;
         Temp_title(): string;
         temp(): string;
         Temp(): $mol_labeler;
@@ -2041,15 +2006,12 @@ declare namespace $ {
         angle_title(): string;
         angle(): string;
         Angle(): $mol_labeler;
-        Light(): $mol_row;
+        Light(): $mol_view;
         Info(): $mol_row;
         photo(): string;
         Photo(): $mol_image;
-        Gallery(): $mol_row;
-        Main_page(): $mol_page;
-        lamp_title(id: any): string;
-        Lamp_row_dimmer(id: any): $$.$mol_dimmer;
-        lamp_arg(id: any): {};
+        Gallery(): $mol_view;
+        Main_page(id: any): $mol_page;
     }
 }
 
@@ -2087,7 +2049,7 @@ declare namespace $.$$ {
         lamps_dict(): {
             [key: string]: any;
         };
-        lamp_rows(): any[];
+        lamp_rows(): ($mol_link | $mol_search)[];
         lamp_title(id: string): any;
         filter(next?: string, force?: $mol_mem_force): string;
         lamp_arg(id: string): {
