@@ -939,6 +939,10 @@ declare namespace $ {
 }
 
 declare namespace $ {
+    let $mol_action: typeof $mol_wire_method;
+}
+
+declare namespace $ {
     class $mol_state_arg extends $mol_object {
         prefix: string;
         static href(next?: string): string;
@@ -953,6 +957,9 @@ declare namespace $ {
         static make_link(next: {
             [key: string]: any;
         }): string;
+        static go(next: {
+            [key: string]: string | null;
+        }): void;
         constructor(prefix?: string);
         value(key: string, next?: string): string | null;
         sub(postfix: string): $mol_state_arg;
@@ -1961,10 +1968,6 @@ declare namespace $ {
 }
 
 declare namespace $ {
-    let $mol_action: typeof $mol_wire_method;
-}
-
-declare namespace $ {
     function $mol_fiber_defer<Value = void>(calculate: () => Value): $mol_wire_task<{}, [], Value>;
     function $mol_fiber_root<Calculate extends (this: This, ...args: any[]) => Result, Result = void, This = void>(calculate: Calculate): Calculate;
     function $mol_fiber_sync<Args extends any[], Value = void, This = void>(request: (this: This, ...args: Args) => PromiseLike<Value>): (...args: Args) => Value;
@@ -2049,14 +2052,14 @@ declare namespace $ {
             alt: string;
             loading: string;
             decoding: string;
-            crossOrigin: string;
+            crossOrigin: any;
         };
         minimal_width(): number;
         minimal_height(): number;
         uri(): string;
         loading(): string;
         decoding(): string;
-        cors(): string;
+        cors(): any;
     }
 }
 
