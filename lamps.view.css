@@ -8,7 +8,10 @@
 
 [hyoo_lamps_menu] {
 	min-height: 100%;
-	padding: .75rem;
+}
+
+[hyoo_lamps_info] {
+	padding: 0;
 }
 
 [hyoo_lamps_lamp_row] {
