@@ -192,7 +192,7 @@ namespace $.$$ {
 				.replace( /[ \/]/g , '-' )
 				.replace( /[.,]/g , '' )
 				.toLowerCase()
-				.replace( /[а-я]/g , ( letter : string )=> trans[ letter ] )
+				.replace( /[а-я]/g , ( letter : keyof typeof trans )=> trans[ letter ] )
 		}
 		
 		photo() {
