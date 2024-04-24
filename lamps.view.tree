@@ -25,7 +25,7 @@ $hyoo_lamps $mol_book2
 			tools /
 				<= Close $mol_link
 					sub /
-						<= Close_icon $mol_icon_cross
+						<= Close_icon $mol_icon_close
 					arg *
 						lamp null
 			body /
